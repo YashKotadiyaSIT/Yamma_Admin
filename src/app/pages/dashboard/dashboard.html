@@ -1,0 +1,81 @@
+<div class="row">
+    @for (item of items; track item) {
+    <div class="{{ item.design }} col-xl-4">
+        <app-card [hidHeader]="true">
+            <h5 class="mb-4">
+                <b>{{ item.title }}</b>
+            </h5>
+            <div class="row d-flex align-items-center">
+                <div class="col-9">
+                    <h3 class="f-w-300 d-flex align-items-center m-b-0">
+                        <i class=" {{ item.icon }} f-30 m-r-10 {{ item.color }}"></i> {{ item.count }}
+                    </h3>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    }
+</div>
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-block">
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label for="yearSelect">Select Year</label>
+                        <select id="yearSelect" ngClass="form-select" [(ngModel)]="selectedYear" (change)="onYearChange2()" class="form-control">
+              <option *ngFor="let year of allyears" [value]="year">{{ year }}</option>
+            </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="intervalSelect">Select Interval</label>
+                        <select id="intervalSelect" ngClass="form-select" [(ngModel)]="selectedInterval" (change)="onIntervalChange2()" class="form-control">
+              <option value="monthly">Monthly</option>
+              <option value="weekly">Weekly</option>
+              <option value="daily">Daily</option>
+            </select>
+                    </div>
+                </div>
+
+                <div class="chart-content">
+                    <canvas #chartCanvas baseChart [data]="barChartData" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="'bar'"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-block">
+                <div class="row mb-6">
+                    <div class="col-md-3">
+                        <label for="yearSelectCh2">Select Year</label>
+                        <select id="yearSelectCh2" ngClass="form-select" [(ngModel)]="selectedYear2" (change)="onYearChange2()" class="form-control">
+            <option *ngFor="let year of allyears2" [value]="year">{{ year }}</option>
+          </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="intervalSelect2">Select Interval</label>
+                        <select id="intervalSelect" ngClass="form-select" [(ngModel)]="selectedInterval2" (change)="onIntervalChange2()" class="form-control">
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+          </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="intervalSelect">Select User Type</label>
+                        <select id="intervalSelect" ngClass="form-select" [(ngModel)]="selectedUser" (change)="onUserChange2()" class="form-control">
+            <option value="student">Student</option>
+            <option value="instructor">Instructor</option>
+          </select>
+                    </div>
+                </div>
+                <div class="chart-content">
+                    <canvas #chartCanvasUser baseChart [data]="barChartData2" [options]="barChartOptions2" [plugins]="barChartPlugins2" [legend]="barChartLegend2" [type]="'bar'"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

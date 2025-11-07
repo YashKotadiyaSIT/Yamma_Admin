@@ -1,0 +1,29 @@
+.card{
+    border-radius: 15px;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 40px; /* space for the eye button */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+.toggle-password:focus {
+  outline: none;
+}

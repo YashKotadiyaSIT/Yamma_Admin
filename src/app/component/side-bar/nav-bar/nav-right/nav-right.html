@@ -1,0 +1,33 @@
+<ul class="navbar-nav">
+ 
+    <li>
+      <div class="dropdown drp-user" ngbDropdown placement="auto">
+        <a href="javascript:" ngbDropdownToggle data-toggle="dropdown" class="d-flex align-items-center">
+          <!-- User profile image in a circular shape -->
+          <div class="user-profile-icon">
+            <img [src]="profileImage || 'https://via.placeholder.com/200'" class="rounded-circle" width="40" height="40" (error)="setPlaceholderImage($event)">
+          </div>
+          <span class="username ms-2"><b>{{ firstname }} {{ lastname }}</b></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end profile-notification" ngbDropdownMenu>
+          <ul class="pro-body">
+            <li>
+              <a href="javascript:" class="dropdown-item" (click)="profile()">
+                <i class="feather icon-user"></i>
+                My Account
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="dropdown-item" (click)="logout()">
+                <i class="feather icon-log-out"></i>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+    
+    
+  </ul>
+  

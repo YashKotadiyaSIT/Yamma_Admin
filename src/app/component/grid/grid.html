@@ -1,0 +1,15 @@
+<ag-grid-angular style="width: 100%;" class="ag-theme-quartz" [gridOptions]="gridOptions" [paginationPageSize]="gridOptions.paginationPageSize" [rowData]="rowData" [columnDefs]="colDefs" (sortChanged)="onSortChange($event)" (gridReady)="onGridReady($event)"
+/>
+
+<div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="TotalRecords" [(page)]="PageIndex" [pageSize]="gridOptions.paginationPageSize" (pageChange)="onPaginationChanged()" [maxSize]="5" [rotate]="true" [ellipses]="true" [boundaryLinks]="true" size="sm"></ngb-pagination>
+
+    <div class="customdv">
+        <label><b>Items per page:</b></label>
+        <select class="form-select" style="width: auto" [(ngModel)]="gridOptions.paginationPageSize" (ngModelChange)="onPaginationChanged()">
+      @for (page of paginationPageSizeSelector; track page) {
+        <option [ngValue]="page">{{ page }}</option>
+      }
+    </select>
+    </div>
+</div>

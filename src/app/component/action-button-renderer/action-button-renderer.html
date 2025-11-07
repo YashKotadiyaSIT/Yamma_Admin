@@ -1,0 +1,20 @@
+<div class="button-container">
+    @for (button of buttons; track button) {
+    <button (click)="onButtonClick(button)" [class]="button.class">
+      
+      <!-- If img is provided -->
+      @if (button.img) {
+        <img [src]="button.img" [alt]="button.alt || ''" width="20" height="20" />
+      }
+      
+      <!-- If icon class is provided -->
+      @else if (button.icon) {
+        <i [class]="button.icon"></i>
+      }
+      
+      <!-- If text is provided -->
+      @else if (button.text) {
+        <span>{{ button.text }}</span>
+      }
+    </button> }
+</div>

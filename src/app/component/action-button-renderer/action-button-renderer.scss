@@ -1,0 +1,16 @@
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    /* Aligns buttons to the left */
+    gap: 10px;
+    /* Optional: Adds spacing between buttons */
+    min-height: 42px;
+    flex-wrap: wrap;
+}
+
+.fixed-width-btn {
+    width: 120px;
+    /* Adjust this width as needed */
+    text-align: center;
+    /* Ensures text alignment within the button */
+}

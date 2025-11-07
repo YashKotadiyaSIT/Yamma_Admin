@@ -1,0 +1,139 @@
+<div class="auth-wrapper">
+    <div class="auth-content">
+      <div class="auth-bg">
+        <span class="r"></span>
+        <span class="r s"></span>
+        <span class="r s"></span>
+        <span class="r"></span>
+      </div>
+      <div class="card">
+        <div class="card-body text-center">
+          <img style="width: 160px" src="assets/images/Teach-Mi_Logo.svg" />
+          <div class="mb-4 pt-2">
+            <i class="feather icon-unlock auth-icon"></i>
+          </div>
+          <!-- Login Form -->
+          <div *ngIf="!isForgotPassword && !isOtpVerified">
+            <form [formGroup]="loginForm" (ngSubmit)="loginform.form.valid && onLogin()" #loginform="ngForm">
+              <div class="input-group mb-1">
+                <input type="email" class="form-control" formControlName="email" placeholder="Email address" />
+              </div>
+              <div class="text-danger mb-3 text-start">
+                <small *ngIf="(loginForm.get('email')?.touched || loginform.submitted)">
+                  <span *ngIf="loginForm.get('email')?.errors?.['required']">
+                     Email id is required
+                  </span>
+                  <span *ngIf="loginForm.get('email')?.errors?.['pattern']">
+                    Please enter a valid email address
+                  </span>
+                </small>
+              </div>
+              <div class="form-group password-wrapper">
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control password-input" formControlName="password"
+                  placeholder="Password" />
+                <button type="button" class="toggle-password" (click)="showPassword = !showPassword" tabindex="-1">
+                  <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              <div class="text-danger mb-3 text-start">
+                <small
+                  *ngIf="(loginForm.get('password')?.touched || loginform.submitted) && loginForm.get('password')?.errors?.['required']">
+                  Password is required
+                </small>
+              </div>
+              <button class="btn btn-primary mb-4 form-control" >Login</button>
+            </form>
+            <a class="mb-2 forgot-password-link" (click)="toggleForgotPassword()" href="javascript:void(0)">
+              Forgot password?
+            </a>
+          </div>
+          <!-- Forgot Password and OTP Form -->
+          <div *ngIf="isForgotPassword && !isOtpVerified">
+            <form [formGroup]="forgotPasswordForm" (ngSubmit)="forgotPasswordForm.valid">
+              <div class="input-group mb-1" *ngIf="!isOtpSent">
+                <input type="text" class="form-control" formControlName="emailid" placeholder="Email address" />
+              </div>
+              <div class="text-danger mb-3 text-start">
+                <small
+                  *ngIf="(forgotPasswordForm.get('emailid')?.touched) && forgotPasswordForm.get('emailid')?.errors?.['required']">
+                  Email Id is required
+                </small>  
+                <small *ngIf="forgotPasswordForm.get('emailid')?.touched && forgotPasswordForm.get('emailid')?.hasError('pattern')">
+                  Please enter a valid email address
+                </small>
+              </div>
+              <button *ngIf="!isOtpSent" class="btn btn-primary mb-3 form-control" (click)="onGetOTP()">Get OTP</button>
+              <div class="input-group mb-1" *ngIf="isOtpSent">
+                <input type="text" class="form-control" formControlName="otp" placeholder="Enter OTP" />
+              </div>
+              <div class="text-danger mb-3 text-start">
+                <small
+                  *ngIf="(forgotPasswordForm.get('otp')?.touched) && forgotPasswordForm.get('otp')?.errors?.['required']">
+                  OTP is required
+                </small>
+              </div>
+              <button *ngIf="isOtpSent" class="btn btn-primary mb-3 form-control" (click)="onVerifyOTP()">Verify OTP</button>
+            </form>
+            <a class="mb-2" href="javascript:void(0)" (click)="toggleForgotPassword()">Back to Login</a>
+          </div>
+          <!-- Reset Password Form -->
+          <div *ngIf="isOtpVerified">
+            <form [formGroup]="resetPasswordForm" (ngSubmit)="onResetPassword()">
+                  <div class="form-group password-wrapper">
+                    <input [type]="isshowforgotpassword ? 'text' : 'password'" class="form-control password-input"
+                      formControlName="newPassword" placeholder="New Password" />
+                    <button type="button" class="toggle-password" (click)="isshowforgotpassword = !isshowforgotpassword" tabindex="-1">
+                      <i class="fa" [ngClass]="isshowforgotpassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                  </div>
+              <div class="text-danger mb-3 text-start">
+                <small
+                  *ngIf="(resetPasswordForm.get('newPassword')?.touched) && resetPasswordForm.get('newPassword')?.errors?.['required']">
+                  New password is required
+                </small>
+                <small
+                  *ngIf="resetPasswordForm.get('newPassword')?.touched && resetPasswordForm.get('newPassword')?.hasError('minlength')">
+                  Password must be at least 8 characters
+                </small>
+                <small
+                  *ngIf="resetPasswordForm.get('newPassword')?.touched && resetPasswordForm.get('newPassword')?.hasError('maxlength')">
+                  Password cannot exceed 15 characters
+                </small>
+                <small
+                  *ngIf="resetPasswordForm.get('newPassword')?.touched && resetPasswordForm.get('newPassword')?.hasError('pattern')">
+                  Password cannot contain spaces
+                </small>
+              </div>
+              <div class="form-group password-wrapper">
+                <input [type]="isshowconfirmpassword ? 'text' : 'password'" class="form-control password-input"
+                  formControlName="confirmPassword" placeholder="Confirm Password" />
+                <button type="button" class="toggle-password" (click)="isshowconfirmpassword = !isshowconfirmpassword" tabindex="-1">
+                  <i class="fa" [ngClass]="isshowconfirmpassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              <div class="text-danger mb-3 text-start">
+                <small
+                  *ngIf="(resetPasswordForm.get('confirmPassword')?.touched) && resetPasswordForm.get('confirmPassword')?.errors?.['required']">
+                  Confirm password is required
+                </small>
+                <small
+                  *ngIf="resetPasswordForm.get('confirmPassword')?.touched && resetPasswordForm.get('confirmPassword')?.hasError('minlength')">
+                  Confirm Password must be at least 8 characters
+                </small>
+                <small
+                  *ngIf="resetPasswordForm.get('confirmPassword')?.touched && resetPasswordForm.get('confirmPassword')?.hasError('maxlength')">
+                  Confirm Password cannot exceed 15 characters
+                </small>
+                <small
+                  *ngIf="resetPasswordForm.get('confirmPassword')?.touched && resetPasswordForm.get('confirmPassword')?.hasError('pattern')">
+                  Confirm Password cannot contain spaces
+                </small>
+              </div>
+              <button class="btn btn-primary mb-3 form-control" [disabled]="resetPasswordForm.invalid">Reset Password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

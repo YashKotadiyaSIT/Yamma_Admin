@@ -1,0 +1,14 @@
+.customdv {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Space between text and dropdown */
+}
+
+::ng-deep .pagination {
+    margin-bottom: 0;
+}
+
+::ng-deep .page-link {
+    color: #67057c;
+}
