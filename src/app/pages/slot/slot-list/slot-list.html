@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-xl-12">
+        <app-card cardTitle="Slot Management" [options]=" false " blockClass="table-border-style ">
+
+            <div class="row g-3 align-items-end mb-3">
+                <!-- Student Filter -->
+                <div class="col-md-2">
+                    <label class="form-label">Student Name</label>
+                    <ng-select [items]="studentList" bindLabel="name" bindValue="id" [(ngModel)]="filters.studentId"
+                        [searchable]="true" placeholder="Select student">
+                    </ng-select>
+                </div>
+
+                <!-- Instructor Filter -->
+                <div class="col-md-2">
+                    <label class="form-label">Instructor Name</label>
+                    <ng-select [items]="instructorList" bindLabel="name" bindValue="id"
+                        [(ngModel)]="filters.instructorId" [searchable]="true" placeholder="Select instructor">
+                    </ng-select>
+                </div>
+               
+
+                 <div class="col-md-2">
+                    <label class="form-label">Lesson Start Date</label>
+                    <input type="date" [(ngModel)]="filters.startTime" class="form-control">
+                </div>
+
+
+
+                <div class="col-md-2">
+                    <label class="form-label">Lesson End Date</label>
+                    <input type="date" [(ngModel)]="filters.endTime" class="form-control">
+                </div>
+                
+            
+                
+                <!-- Status -->
+                <div class="col-md-1">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" [(ngModel)]="filters.status">
+                        <option *ngFor="let s of statusList" [value]="s.id">{{ s.status }}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-1">
+                    <label class="form-label">Lesson status</label>
+                    <select class="form-select" [(ngModel)]="filters.lessonstatus" style="width: 125px;">
+                        <option *ngFor="let s of activelesson" [value]="s.id">{{ s.status }}</option>
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-md-2 d-flex gap-2">
+                    <button class="btn btn-primary" (click)="applyFilters()">Apply</button>
+                    <button class="btn btn-secondary" (click)="resetFilters()">Reset</button>
+                </div>
+            </div>
+
+
+            <div class="table-responsive w-100 mt-3">
+                <app-grid [rowData]="slotListData " [colDefs]="columnDefination "
+                    (paginationData)="onPaginationChanged($event) "></app-grid>
+            </div>
+        </app-card>
+    </div>
+</div>

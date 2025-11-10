@@ -29,6 +29,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'slot',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('../../pages/slot/slot-module').then(
+        (m) => m.SlotModule
+      ),
+  },
+  {
     path: 'booking',
     canActivate: [authGuard],
     loadChildren: () =>
