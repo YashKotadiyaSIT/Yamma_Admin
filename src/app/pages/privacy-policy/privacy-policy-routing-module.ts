@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFound } from './page-not-found';
+import { PrivacyPolicy } from './privacy-policy';
 
 const routes: Routes = [
   {
     path:'',
-    component:PageNotFound
+    component:PrivacyPolicy
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PageNotFoundRoutingModule { }
+export class PrivacyPolicyRoutingModule { }

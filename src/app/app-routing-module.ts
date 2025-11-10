@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Main } from './layout/main/main';
 import { Login } from './pages/auth/login/login';
+import { PrivacyPolicy } from './pages/privacy-policy/privacy-policy';
 
 const routes: Routes = [
   {
@@ -22,6 +23,13 @@ const routes: Routes = [
           import('./layout/main/main-module').then((m) => m.MainModule)
       }
     ]
+  },
+  {
+    path: 'privacy-policy',
+    loadChildren: () =>
+      import('../app/pages/privacy-policy/privacy-policy-module').then(
+        (m) => m.PrivacyPolicyModule
+      )
   },
   {
     path: '**',
