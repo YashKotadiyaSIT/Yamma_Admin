@@ -22,6 +22,7 @@ import { ToggleFullScreenDirective } from './component/full-screen/toggle-full-s
 import { AuthInterceptor } from './interceptor/AuthInterceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationItem } from './component/side-bar/navigation/navigation-item';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NavigationItem } from './component/side-bar/navigation/navigation-item'
     NavigationItem,
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    DatePipe
   ],
   bootstrap: [App]
 })

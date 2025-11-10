@@ -14,7 +14,7 @@ const routes: Routes = [
     component:BookingList
   },
   {
-    path:"details",
+    path:"details/:id",
     component:BookingDetails
   }
 ];

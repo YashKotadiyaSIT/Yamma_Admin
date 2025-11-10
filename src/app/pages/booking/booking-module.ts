@@ -16,7 +16,6 @@ import { SharedModule } from '../../component/shared/shared-module';
     CommonModule,
     BookingRoutingModule,
     SharedModule
-  ],
-  providers:[DatePipe]
+  ]
 })
 export class BookingModule { }

@@ -1,0 +1,180 @@
+<div class="row">
+    <div class="col-xl-12">
+      <button class="btn btn-secondary" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <app-card cardTitle="Slot Details" [options]="false">
+        <div class="row">
+          <div class="col-xl-12 col-lg-8 col-md-8 col-sm-12 col-12">
+            <div ngbAccordion>
+              <div ngbAccordionItem [collapsed]="!isSlotDetailsOpen">
+                <h2 ngbAccordionHeader>
+                  <button ngbAccordionButton>
+                    <label class="me-2">Slot Detail -</label>
+                    <b>( {{ bookingData?.lessonStartTime | date:'dd/MM/yyyy hh:mm a' }} -
+                    {{ bookingData?.lessonEndTime | date:'hh:mm a' }})</b>
+                  </button>
+                  
+                </h2>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody>
+                    <div class="row">
+                
+                      <div class="col-xl-10 col-lg-8 col-md-8 col-sm-12 col-12">
+                        <div>
+                          <strong>Student Name : </strong> {{ bookingData?.studentName }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Instructor Name : </strong> {{ bookingData?.instructorName }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Slot Status : </strong>
+                          <span class="badge" [ngClass]="{
+                                  'bg-success': bookingData?.reqStatus === 'Approved',
+                                  'bg-warning': bookingData?.reqStatus === 'Pending',
+                                  'bg-danger': bookingData?.reqStatus === 'Rejected',
+                                  'bg-secondary': bookingData?.reqStatus !== 'Approved' && bookingData?.reqStatus !== 'Pending' && bookingData?.reqStatus !== 'Rejected'
+                                }">
+                            {{ bookingData?.reqStatus || 'Unknown' }}
+                          </span>
+                        </div>
+                      
+                        <div class="pt-2">
+                          <strong>Activity Status : </strong> {{ bookingData?.activityStatus }}
+                        </div>
+  
+  
+                         <div class="pt-2" [hidden]="bookingData?.stopReason == null">
+                          <strong>Stop Reason : </strong> {{ bookingData?.stopReason }}
+                        </div>
+                         <div class="pt-2" [hidden]="bookingData?.stopMessage == null">
+                          <strong>Stop Description : </strong> {{ bookingData?.stopMessage }}
+                        </div>
+                         <div class="pt-2" [hidden]="bookingData?.stopByUserName == null">
+                          <strong>Stop by : </strong> {{ bookingData?.stopByUserName }}
+                        </div> 
+                         <div class="pt-2" [hidden]="bookingData?.studentRating <= 0">
+                          <strong>Student Rating : </strong> {{ bookingData?.studentRating }}
+                        </div> 
+                         <div class="pt-2" [hidden]="bookingData?.instructorRating <= 0">
+                          <strong>Instructor Rating: </strong> {{ bookingData?.instructorRating }}
+                        </div>              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ngbAccordion class="pt-3">
+              <div ngbAccordionItem >
+                <h2 ngbAccordionHeader>
+                  <button ngbAccordionButton>Rating</button>
+                </h2>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody>
+                    <div class="row">
+                      <div class="col-xl-10 col-lg-8 col-md-8 col-sm-12 col-12">
+                         <div class="pt-2">
+                          <strong>Student Rating : </strong> {{ bookingData.studentRating == 0 ? 'Rating Not Submited Yet' : bookingData?.studentRating }}
+                        </div> 
+                         <div class="pt-2">
+                          <strong>Instructor Rating: </strong> {{ bookingData.instructorRating == 0 ? 'Rating Not Submited Yet' : bookingData?.instructorRating }}
+                        </div>              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div ngbAccordion class="pt-3" *ngIf="bookingData?.isProgressReportAvailable">
+              <div ngbAccordionItem>
+                <h2 ngbAccordionHeader>
+                  <button ngbAccordionButton>Progress Report</button>
+                </h2>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody>
+                    <ng-template>
+                      <div class="row pt-2 ">
+                        <div class="col-md-4">
+                          <ng-container *ngIf="ProgressReportMasterDetail && ProgressReportMasterDetail.skillLevels.length > 0">
+                            <table class="table table-bordered table-striped table-sm" style="width: 400px; text-align: center;">
+                              <thead>
+                                <tr>
+                                  <th colspan="2"> Progress Report info</th>
+                                </tr>
+                                <tr>
+                                  <th>Skill Color</th>
+                                  <th>Skill Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let r of ProgressReportMasterDetail.skillLevels; let i = index">
+                                  <td>
+                                    <span class="badge" [ngStyle]="{
+                                                        'background-color': '#' + r.colorCode,
+                                                        'color': '#fff',
+                                                        'display': 'inline-block',
+                                                        'width': '50px',
+                                                        'height': '30px',
+                                                        'line-height': '25px',
+                                                        'text-align': 'center'
+                                                      }">
+                                      {{r.skillLevelId}}
+                                    </span>
+                                  </td>
+                                  <td>{{ r.description }}</td>
+            
+                                </tr>
+                              </tbody>
+                            </table>
+                          </ng-container>
+                          <ng-container *ngIf="!ProgressReportMasterDetail || ProgressReportMasterDetail.skillLevels.length === 0">
+                            <p>No Data available.</p>
+                          </ng-container>
+                        </div>
+                        <div class="col-md-6">
+                          <ng-container
+                            *ngIf="ProgressReportMasterDetail && ProgressReportMasterDetail.processedReport.length > 0; else noDataReport">
+                            <table class="table table-bordered table-striped table-sm" style="width: 700px; text-align: center;">
+                              <thead>
+                                <tr>
+                                  <th class="activity-column" style="text-align: center;"><b>Activies</b></th>
+                                  <th *ngFor="let skill of ProgressReportMasterDetail.skillLevels">
+                                    <span [ngStyle]="getSkillHeaderColor(skill.skillLevelId)">
+                                      {{ skill.skillLevelId }}
+                                    </span>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let report of ProgressReportMasterDetail.processedReport">
+                                  <td class="activity-column" style="text-align: center;">{{ report.activityName }}</td>
+            
+                                  <td *ngFor="let skill of ProgressReportMasterDetail.skillLevels" class="text-center skill-column">
+                                    <span *ngIf="report.skillLevelsAchieved[skill.skillLevelId]" class="checkmark-icon">
+                                      ✓
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </ng-container>
+                          <ng-template #noDataReport>
+                            <p class="text-muted">No student progress data available.</p>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </ng-template>
+            
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  
+  
