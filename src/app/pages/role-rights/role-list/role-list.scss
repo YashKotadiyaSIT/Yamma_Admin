@@ -1,0 +1,17 @@
+:host ::ng-deep .ag-root-wrapper {
+    width: 100% !important;
+}
+
+:host ::ng-deep .ag-center-cols-container {
+    min-width: 100% !important;
+}
+
+::ng-deep .ag-pinned-right-header,
+::ng-deep .ag-pinned-right-cols-container {
+    border-left: none !important;
+}
+
+::ng-deep .ag-pinned-right-header .ag-header-cell,
+::ng-deep .ag-pinned-right-cols-container .ag-cell {
+    border-left: none !important;
+}

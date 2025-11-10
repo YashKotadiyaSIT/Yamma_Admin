@@ -29,6 +29,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'role',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('../../pages/role-rights/role-rights-module').then(
+        (m) => m.RoleRightsModule
+      ),
+  },
+  {
     path: 'slot',
     canActivate: [authGuard],
     loadChildren: () =>

@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ roleId ? 'Edit Role' : 'Add Role' }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dismissModal()"></button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="roleForm" (ngSubmit)="saveRole()">
+
+        <div class="mb-3">
+            <label for="roleName" class="form-label fw-bold">Role Name <span class="text-danger">*</span></label>
+            <input id="roleName" type="text" formControlName="roleName" class="form-control"
+                placeholder="Enter role name" required />
+            <div *ngIf="roleForm.get('roleName')?.touched && roleForm.get('roleName')?.hasError('required')"
+                class="text-danger">
+                Role name is required.
+            </div>
+            <div *ngIf="roleForm.get('roleName')?.touched && roleForm.get('roleName')?.hasError('pattern')" class="text-danger">
+                Only alphabets are allowed.
+            </div>
+        </div>
+
+        <div class="fw-bold mb-2 pt-2 border-bottom pb-2">Menu Rights</div>
+        
+        <ng-container *ngFor="let group of rightsArray.controls; let i=index">
+            <div formArrayName="rights" class="border rounded p-3 my-2"> 
+                <div [formGroupName]="i" class="d-flex flex-wrap align-items-center gap-3">
+
+                    <div class="fw-semibold me-4" style="min-width: 180px;">
+                        {{ rightsArray.at(i).get('menuName')?.value }}
+                    </div>
+                    
+                        
+                        <div class="form-check me-3" 
+                             *ngIf="menus[i].allowView || menus[i].allowAdd || menus[i].allowEdit || menus[i].allowDelete || menus[i].allowApproveReject">
+                            <input type="checkbox" formControlName="isAll" class="form-check-input" id="all-{{i}}">
+                            <label class="form-check-label fw-bold" for="all-{{i}}">All</label>
+                        </div>
+
+                        <div *ngIf="menus[i].allowView" class="form-check me-3">
+                            <input type="checkbox" formControlName="isView" class="form-check-input" id="view-{{i}}">
+                            <label class="form-check-label" for="view-{{i}}">{{CommonConstants.View}}</label>
+                        </div>
+
+                        <div *ngIf="menus[i].allowAdd" class="form-check me-3">
+                            <input type="checkbox" formControlName="isAdd" class="form-check-input" id="add-{{i}}">
+                            <label class="form-check-label" for="add-{{i}}">{{CommonConstants.Add}}</label>
+                        </div>
+
+                        <div *ngIf="menus[i].allowEdit" class="form-check me-3">
+                            <input type="checkbox" formControlName="isEdit" class="form-check-input" id="edit-{{i}}">
+                            <label class="form-check-label" for="edit-{{i}}">{{CommonConstants.View}}</label>
+                        </div>
+
+                        <div *ngIf="menus[i].allowDelete" class="form-check me-3">
+                            <input type="checkbox" formControlName="isDelete" class="form-check-input" id="delete-{{i}}">
+                            <label class="form-check-label" for="delete-{{i}}">{{CommonConstants.Delete}}</label>
+                        </div>
+
+                        <div *ngIf="menus[i].allowApproveReject" class="form-check me-3">
+                            <input type="checkbox" formControlName="isApproveReject" class="form-check-input"
+                                id="approve-{{i}}">
+                            <label class="form-check-label" for="approve-{{i}}">Approve/Reject</label>
+                        </div>
+
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="dismissModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" >Save</button>
+        </div>
+    </form>
+</div>
