@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-page-not-found',
@@ -8,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class PageNotFound {
 
+  constructor(private route: Router) { }
+
+  ngOnInit(): void {
+  }
+
+  goToDashboard() {
+    this.route.navigate(['/dashboard']);
+  }
 }
