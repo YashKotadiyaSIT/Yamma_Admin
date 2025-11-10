@@ -7,8 +7,12 @@ import { NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { Card } from '../card/card';
 import { Grid } from '../grid/grid';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
 // import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 // import { Grid } from '../grid/grid';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @NgModule({
   declarations: [
@@ -23,7 +27,8 @@ import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
     NgbModule,
     NgScrollbarModule,
     NgbCollapseModule,
-    Breadcrumbs
+    Breadcrumbs,
+    AgGridModule
   ],
   exports:[
     CommonModule,

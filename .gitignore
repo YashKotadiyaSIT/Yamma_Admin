@@ -41,3 +41,12 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+.vs/Yamma_Admin/CopilotIndices/17.14.1091.29919/CodeChunks.db
+.vs/Yamma_Admin/CopilotIndices/17.14.1091.29919/SemanticSymbols.db
+.vs/Yamma_Admin/FileContentIndex/8c56e548-a9c6-414f-b53c-201face160e0.vsidx
+.vs/Yamma_Admin/FileContentIndex/f3e88393-a91f-48b7-924d-3ed0195b7305.vsidx
+.vs/Yamma_Admin/v17/.wsuo
+.vs/Yamma_Admin/v17/DocumentLayout.backup.json
+.vs/Yamma_Admin/v17/DocumentLayout.json

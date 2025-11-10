@@ -23,6 +23,7 @@ export class Grid {
     wrapText: true
   };
   gridOptions: GridOptions = {
+    theme: 'legacy',
     autoSizeStrategy: {
       type: "fitCellContents",
     },

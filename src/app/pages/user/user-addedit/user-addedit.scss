@@ -1,0 +1,36 @@
+.profile-preview img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.profile-preview {
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f1f1f1;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    padding: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.edit-icon i {
+    font-size: 14px;
+    color: #007bff;
+}

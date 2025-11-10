@@ -13,6 +13,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'user',
+    // canActivate: [authGuard],
+    loadChildren: () =>
+      import('../../pages/user/user.module').then(
+        (m) => m.UserModule
+      ),
+  },
+  {
     path: 'redirect',
     canActivate: [authGuard],
     loadChildren: () =>

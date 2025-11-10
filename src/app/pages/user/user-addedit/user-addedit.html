@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ userId ? 'Edit User' : 'Add User' }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dismissModal()"></button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+       
+        <!-- Profile Image with Pencil Icon -->
+        <div class="d-flex justify-content-center mb-4">
+            <div class="profile-preview position-relative">
+                <img [src]="profilePicture" (error)="setPlaceholderImage($event)" alt="Profile Image"
+                    class="profile-img" />
+                 @if(isView == false){
+                    <!-- Pencil Icon Overlay -->
+                    <button type="button" class="edit-icon" (click)="fileInput.click()">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <!-- Hidden File Input -->
+                    <input type="file" #fileInput class="d-none" (change)="onImageUpload($event)"
+                        accept="image/jpeg, image/png" />
+                 }
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- First Name -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">{{UserConstants.FirstName }}<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="Enter First Name" formControlName="firstName" />
+                <div *ngIf="isInvalid('firstName')" class="text-danger">
+                    <div *ngIf="userForm.get('firstName')?.hasError('required')">First name is required.</div>
+                    <div *ngIf="userForm.get('firstName')?.hasError('pattern')"> First name can only contain letters and numbers</div>
+                    <div *ngIf="userForm.get('firstName')?.hasError('maxlength')">Maximum 30 characters allowed.</div>
+                </div>
+            </div>
+        
+            <!-- Last Name -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">{{UserConstants.LastName}} <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="lastName" />
+                <div *ngIf="isInvalid('lastName')" class="text-danger">
+                    <div *ngIf="userForm.get('lastName')?.hasError('required')">Last name is required.</div>
+                    <div *ngIf="userForm.get('lastName')?.hasError('pattern')">Last name can only contain letters and numbers</div>
+                    <div *ngIf="userForm.get('lastName')?.hasError('maxlength')">Maximum 30 characters allowed.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          
+            <div class="col-md-6 mb-3">
+                <label class="form-label"> {{UserConstants.PhoneNumber}}<span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <span class="input-group-text">+44</span>
+                    <input type="text" class="form-control" placeholder="Enter Phone Number" formControlName="phoneNo"
+                        maxlength="13" />
+                </div>
+                <div *ngIf="isInvalid('phoneNo')" class="text-danger">
+                    <ng-container *ngIf="userForm.get('phoneNo')?.hasError('required')">
+                        Phone number is required.
+                    </ng-container>
+                    <ng-container *ngIf="userForm.get('phoneNo')?.hasError('pattern')">
+                        Phone number must be between 10 and 13 digits.
+                    </ng-container>
+                </div>
+            </div>
+
+
+            <!-- Email -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">{{UserConstants.Email}} <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" placeholder="Enter Email" formControlName="emailId" />
+                <div *ngIf="isInvalid('emailId')" class="text-danger">
+                    <ng-container *ngIf="userForm.get('emailId')?.hasError('required')">
+                        Email is required.
+                    </ng-container>
+                    <ng-container *ngIf="userForm.get('emailId')?.hasError('pattern')">
+                        Enter a valid email address.
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Role -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label"> {{UserConstants.Role}}<span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="roleId">
+                    <option value="">-- Select Role --</option>
+                    <option *ngFor="let role of roleList" [value]="role.roleId">{{ role.roleName }}</option>
+                </select>
+                <div *ngIf="isInvalid('roleId')" class="text-danger">
+                    Role is required.
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="dismissModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
