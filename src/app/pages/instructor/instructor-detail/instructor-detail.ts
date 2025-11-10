@@ -6,10 +6,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { ApiUrlHelper } from '../../../common/api-url-helper';
-import { LicenseType, VehicleTransmissionLabel, LicenseTypeLabel, MENU, RIGHTS, LicenseTypeNameToId } from '../../../common/Constants/EnumConstants';
+import { LicenseType, VehicleTransmissionLabel, LicenseTypeLabel, MENU, RIGHTS, LicenseTypeNameToId, VerificationStatus } from '../../../common/Constants/EnumConstants';
 import { RegexPatterns } from '../../../common/Validation/Validation';
 import { AuthService } from '../../../service/authService/auth.service';
 import { CommonService } from '../../../service/common/common.service';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-instructor-detail',
@@ -786,5 +787,18 @@ export class InstructorDetail {
     this.modalService.dismissAll('Cross click');
   }
 
+  verificationStatusPipe(value: number): string {
+    const status = Number(value);
+      switch (status) {
+        case VerificationStatus.Approved:
+          return 'Approved';
+        case VerificationStatus.Pending:
+          return 'Pending';
+        case VerificationStatus.Rejected:
+          return 'Rejected';
+        default:
+          return 'Unknown';
+      }
+    }
 
 }
