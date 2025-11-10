@@ -1,0 +1,721 @@
+<div class="row">
+    <div class="col-xl-12">
+        <button class="btn btn-secondary mb-3" (click)="goBack()">
+            <i class="fa fa-arrow-left me-0"></i>
+        </button>
+        <app-card [cardTitle]="'Instructor Details - ' + InstructorDetails?.instructorFirstName + ' ' + InstructorDetails?.instructorLastName" [options]="false">
+            <div class="row">
+                <div class="col-xl-12 col-12">
+                    <div ngbAccordion>
+                        <div ngbAccordionItem [collapsed]="false">
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Personal Details</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div class="row">
+                                        <div class="col-xl-9 col-lg-7 col-sm-12 col-12">
+                                            <div>
+                                                <strong>First Name : </strong> {{InstructorDetails.instructorFirstName}}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Last Name : </strong> {{InstructorDetails.instructorLastName}}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Date of Birth : </strong> {{InstructorDetails.instructorDOB | date:'dd/MM/yyyy'}}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Email Address : </strong> {{InstructorDetails.instructorEmail}}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Gender : </strong> {{InstructorDetails.gender}}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Phone Number : </strong> +44 {{InstructorDetails.userPhone}}
+                                            </div>
+
+                                            <div class="pt-2" >
+                                                <strong>Rating : </strong>  {{InstructorDetails?.rating}}
+                                            </div>
+
+                                            <div class="pt-2">
+                                                <strong>Bio : </strong>
+                                                <span [hidden]="showFullBio">
+                                            {{ InstructorDetails?.bio?.slice(0, 25) }}
+                                            <span [hidden]="!(InstructorDetails?.bio?.length > 25 && !showFullBio)">...</span>
+                                                </span>
+                                                <span [hidden]="!showFullBio">
+                                            {{ InstructorDetails?.bio }}
+                                        </span>
+                                                <button class="btn btn-link p-0 ms-1" (click)="toggleBio()" [hidden]="!(InstructorDetails?.bio?.length > 25)">
+                                            {{ showFullBio ? 'Show Less' : 'Show More' }}
+                                        </button>
+                                            </div>
+
+
+                                        </div>
+                                         <div class="col-xl-3 col-lg-5 col-sm-12 col-12 d-lg-flex justify-content-lg-end  ">
+                                            <div class="d-flex flex-column align-items-center position-relative user-p-btn">
+                                                <button [hidden]="!editRights" class="btn-icon" (click)="openEditModal()">
+                                                    <img src="assets/images/edit.svg" alt="Edit"  />
+                                                </button>
+
+                                                <img [src]="InstructorDetails?.instructorImageDoc || 'https://via.placeholder.com/150'" class="img-fluid  image-border" (error)="setPlaceholderImage($event)" alt="Profile Image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>License Details 
+                                     <span class="ms-2 badge" [ngClass]="{
+                                        'bg-success': InstructorDetails.licenseVerificationStatus == 1,
+                                        'bg-warning text-dark': InstructorDetails.licenseVerificationStatus == 2,
+                                        'bg-danger': InstructorDetails.licenseVerificationStatus == 3
+                                      }">
+                                        {{ InstructorDetails.licenseVerificationStatus | verificationStatusPipe }}
+                                    </span>
+                                     <span *ngIf="InstructorDetails.licenseReapply && InstructorDetails.licenseVerificationStatus == 2" class="ms-1">
+                                        <b>(Detail Re-Submitted)</b>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>License Type :</strong> {{ InstructorDetails.licenseType }}
+                                        </div>
+                                        <button [hidden]="!editRights" class="btn-icon edit-btn" (click)="openEditLicenseModal()">
+                                            <img src="assets/images/edit.svg" alt="Edit" />
+                                        </button>
+                                    </div>
+
+                                    <div class="pt-2" [hidden]="isADI">
+                                        <strong>Driving School Name : </strong> {{InstructorDetails.drivingSchoolName}}
+                                    </div>
+
+                                    <div class="pt-2" [hidden]="!InstructorDetails?.licenseADIPDINumber">
+                                        <strong>{{ isPDI ? 'PDI Number : ' : 'ADI Number : ' }}</strong> {{ InstructorDetails.licenseADIPDINumber }}
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <strong>Valid From : </strong> {{InstructorDetails.licenseValidFrom | date:'dd/MM/yyyy'}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Expiry Date : </strong> {{InstructorDetails.licenseValidTo | date:'dd/MM/yyyy'}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Driving License Number : </strong> {{InstructorDetails.licenseNumber}}
+                                    </div>
+                                    <div class="d-flex align-items-center pt-2">
+                                        <strong>Driving License Front Side Document:</strong>
+                                        <a class="ms-1" [href]="InstructorDetails?.licenseFrontSideImage" target="_blank" rel="noopener">
+                                            View Document
+                                        </a>
+                                    </div>
+                                    <div class="d-flex align-items-center pt-2">
+                                        <strong>Driving License Back Side Document:</strong>
+                                        <a class="ms-1" [href]="InstructorDetails?.licenseBackSideImage" target="_blank" rel="noopener">
+                                            View Document
+                                        </a>
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Licence Status : </strong> {{InstructorDetails.licenseVerificationStatus | verificationStatusPipe }}
+                                    </div>
+                                    <div class="pt-2" [hidden]="InstructorDetails.licenseVerificationStatus == 1 || !approveRejectRights">
+                                        <button class="btn btn-primary me-2" type="button" [hidden]="InstructorDetails.licenseVerificationStatus == 1 " (click)="approveInstructor('License')">Approve</button>
+                                        <button class="btn btn-danger" type="button" [hidden]="InstructorDetails.licenseVerificationStatus == 3 " (click)="openRejectReasonPopup(content,'License')">Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                          
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>
+                                    Vehicle Information
+                                    <span class="ms-2 badge" [ngClass]="{
+                                        'bg-success': InstructorDetails.vehicleVerificationStatus == 1,
+                                        'bg-warning text-dark': InstructorDetails.vehicleVerificationStatus == 2,
+                                        'bg-danger': InstructorDetails.vehicleVerificationStatus == 3
+                                      }">
+                                        {{ InstructorDetails.vehicleVerificationStatus | verificationStatusPipe }}
+
+                                        <!-- Show if vehicle details were re-submitted -->
+                                    </span>
+                                    <span *ngIf="InstructorDetails.vehicleReapply && InstructorDetails.vehicleVerificationStatus == 2" class="ms-1">
+                                        <b>(Detail Re-Submitted)</b>
+                                    </span>
+                                </button>
+                            </h2>
+
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div class="d-flex justify-content-between align-items-center ">
+                                        <div>
+                                            <strong>Vehicle Registration Number : </strong> {{ InstructorDetails.vehicleRegistrationNo }}
+                                        </div>
+                                        <button [hidden]="!editRights" class="btn-icon edit-btn " (click)="openEditVehicleModal()">
+                                                <img src="assets/images/edit.svg" alt="Edit" />
+                                            </button>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <strong>Type of Driving : </strong> {{InstructorDetails.vehicleTransmission}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Valid From : </strong> {{InstructorDetails.vehicleValidFrom | date:'dd/MM/yyyy'}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Expiry Date : </strong> {{InstructorDetails.vehicleValidTo | date:'dd/MM/yyyy'}}
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col-6">
+                                            <strong>Insurance Documnet : </strong>
+                                            <ng-container>
+                                                <a [href]="InstructorDetails.vehicleInsuranceDoc" target="_blank" rel="noopener">
+                                                    View Document
+                                                </a>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Vehicle Status : </strong> {{ InstructorDetails.vehicleVerificationStatus | verificationStatusPipe }}
+                                    </div>
+                                    <div class="pt-2" [hidden]="InstructorDetails.vehicleVerificationStatus == 1 || !approveRejectRights">
+                                        <button class="btn btn-primary me-2" type="button" [hidden]="InstructorDetails.vehicleVerificationStatus == 1 " (click)="approveInstructor('Vehicle')">Approve</button>
+                                        <button class="btn btn-danger" type="button" [hidden]="InstructorDetails.vehicleVerificationStatus == 3 " (click)="openRejectReasonPopup(content,'Vehicle')">Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Driving Lessons</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div class="pt-2">
+                                        <strong>City : </strong> {{InstructorDetails.city}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Town : </strong> {{InstructorDetails.town}}
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <strong>Hourly price: </strong> {{InstructorDetails?.hourlyPrice}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Practical test price: </strong> {{InstructorDetails?.practicalTestPrice}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Bundle</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <ng-template>
+                                        <ng-container *ngIf="InstructorDetails?.bundles && InstructorDetails.bundles.length > 0">
+                                            <table class="table table-bordered table-striped table-sm">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>SrNo</th>
+                                                        <th>Bundle Name</th>
+                                                        <th>Lesson Hours</th>
+                                                        <th>Price</th>
+                                                        <th>Expiry Date</th>
+                                                        <th>Terms & Conditions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let bundle of InstructorDetails?.bundles; let i = index">
+                                                        <td>{{ i + 1 }}</td>
+                                                        <td>{{ bundle.bundleName }}</td>
+                                                        <td>{{ bundle.lessionHours }}</td>
+                                                        <td>{{ bundle.price | currency }}</td>
+                                                        <td>{{ bundle.bundleExpiryDate | date:'dd/MM/yyyy' }}</td>
+                                                        <td>{{ bundle.termsAndConditions }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-container *ngIf="!InstructorDetails?.bundles || InstructorDetails.bundles.length === 0">
+                                        <p>No bundles available.</p>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Subscription Detail</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div class="pt-2">
+                                        <strong>Subscription Detail : </strong> {{InstructorDetails.subscriptionType ? InstructorDetails.subscriptionType : 'Not yet subscribed' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Calendar Detail</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <ng-template>
+                                        <div class="pt-2">
+                                            <strong>Lesson Duration Max Hours : </strong> {{InstructorDetails.calendarSettings?.maxDuration}}
+                                        </div>
+                                        <div class="pt-2">
+                                            <strong>Break/Travel Time : </strong> {{InstructorDetails.calendarSettings?.travelTime}}
+                                        </div>
+                                        <div class="row pt-2 ">
+
+                                            <div class="col-md-6">
+
+                                                <ng-container *ngIf="InstructorDetails?.calendarSettings?.availabilityDetails?.length > 0">
+                                                    <h6 class="fw-bold">Availability</h6>
+                                                    <table class="table table-bordered table-striped table-sm">
+                                                        <thead class="table-dark">
+                                                            <tr>
+                                                                <th>Sr No</th>
+                                                                <th>Week Day</th>
+                                                                <th>Start Time</th>
+                                                                <th>End Time</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let avail of InstructorDetails.calendarSettings.availabilityDetails; let i = index">
+                                                                <td>{{ i + 1 }}</td>
+                                                                <td>{{ avail.weekDay }}</td>
+                                                                <td>{{ avail.startTime }}</td>
+                                                                <td>{{ avail.endTime }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!InstructorDetails?.calendarSettings?.availabilityDetails?.length">
+                                                    <p>No availability details available.</p>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <ng-container *ngIf="InstructorDetails?.calendarSettings?.breakHoursDetails?.length > 0">
+                                                    <h6 class="fw-bold">Break Hours</h6>
+                                                    <table class="table table-bordered table-striped table-sm">
+                                                        <thead class="table-dark">
+                                                            <tr>
+                                                                <th>Sr No</th>
+                                                                <th>Week Day</th>
+                                                                <th>Start Time</th>
+                                                                <th>End Time</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let break of InstructorDetails.calendarSettings.breakHoursDetails; let j = index">
+                                                                <td>{{ j + 1 }}</td>
+                                                                <td>{{ break.weekDay }}</td>
+                                                                <td>{{ break.startTime }}</td>
+                                                                <td>{{ break.endTime }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!InstructorDetails?.calendarSettings?.breakHoursDetails?.length">
+                                                    <p>No Break Hours available.</p>
+                                                </ng-container>
+                                            </div>
+
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Stripe Connected Account Detail</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div class="pt-2">
+                                        <strong>Connected AccountId : </strong> {{InstructorDetails.stripeAccountId ? InstructorDetails.stripeAccountId : 'Account Not created yet' }}
+                                    </div>
+                                     <div class="pt-2">
+                                        <strong>Stripe Onboarding Status : </strong> {{InstructorDetails.stripeOnboardingStatus }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <br>
+         
+        </app-card>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Rejection Reason</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label for="dateOfBirth">Select Reason</label>
+                <div class="input-group">
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="RejectionReason">
+                        <option value="0" disabled>---Select---</option>
+                        <option value="1">Drive data is not valid</option>
+                        <option value="2">Licence details are not valid or correct</option>
+                        <option value="3">Vehicle details are not valid or correct</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" [disabled]="RejectionReason == 0" (click)="modal.close('Save click')">Save</button>
+    </div>
+    <img #profileImg [src]="InstructorDetails?.instructorImageDoc" style="display: none;" />
+</ng-template>
+
+
+
+<ng-template #editPersonalDetails let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Instructor Personal Details</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="editForm" (ngSubmit)="saveChanges(modal)">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label class="form-label">First Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="firstName">
+
+                <div *ngIf="editForm.get('firstName')?.touched">
+                    <!-- Required error -->
+                    <div *ngIf="editForm.get('firstName')?.hasError('required')" class="text-danger">
+                        First Name is required.
+                    </div>
+
+                    <!-- Pattern error -->
+                    <div *ngIf="!editForm.get('firstName')?.hasError('required') 
+                            && editForm.get('firstName')?.hasError('pattern')" class="text-danger">
+                        First name can only contain letters and numbers
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Last Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="lastName">
+
+                <div *ngIf="editForm.get('lastName')?.touched">
+                    <!-- Required error -->
+                    <div *ngIf="editForm.get('lastName')?.hasError('required')" class="text-danger">
+                        Last Name is required.
+                    </div>
+
+                    <!-- Pattern error -->
+                    <div *ngIf="!editForm.get('lastName')?.hasError('required') 
+                            && editForm.get('lastName')?.hasError('pattern')" class="text-danger">
+                        Last name can only contain letters and numbers
+                    </div>
+                </div>
+            </div>
+
+
+          
+
+            <div class="mb-3">
+                <label class="form-label">Date of Birth<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="dob"  [attr.max]="maxDob">
+                <div *ngIf="editForm.get('dob')?.touched && editForm.get('dob')?.invalid" class="text-danger">
+                    Date of Birth is required and must be at least 18 years before today.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="email">
+                <div *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('required')" class="text-danger">
+                    Email is required.
+                </div>
+                <div *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('pattern')" class="text-danger">
+                    Enter a valid email address.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Gender<span class="text-danger">*</span></label>
+                <select class="form-control" formControlName="gender">
+                    <option value="">Select</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Other</option>
+                </select>
+                <div *ngIf="editForm.get('gender')?.touched && editForm.get('gender')?.invalid" class="text-danger">
+                    Gender is required.
+                </div>
+            </div>
+
+          
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number<span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <span class="input-group-text">+44</span>
+                    <input type="text" class="form-control" formControlName="phoneno" placeholder="Enter Phone Number" />
+                </div>
+                <div *ngIf="editForm.get('phoneno')?.touched && editForm.get('phoneno')?.hasError('required')" class="text-danger">
+                    Phone number is required.
+                </div>
+                <div *ngIf="editForm.get('phoneno')?.touched && editForm.get('phoneno')?.hasError('pattern')" class="text-danger">
+                    Phone number must be between 10 and 13 digits.
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Bio<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="bio">
+                <div *ngIf="editForm.get('bio')?.touched && editForm.get('bio')?.invalid" class="text-danger">
+                    Bio is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" (change)="onProfilePictureSelected($event)" accept="image/*">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Save</button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #editVehicleDetails let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Vehicle Information</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+
+    <form [formGroup]="vehicleForm" (ngSubmit)="saveVehicleChanges(modal)">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label class="form-label">Vehicle Registration Number<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="vehicleRegistrationNo">
+                <div *ngIf="vehicleForm.get('vehicleRegistrationNo')?.touched">
+                    <div *ngIf="vehicleForm.get('vehicleRegistrationNo')?.hasError('required')" class="text-danger">
+                        Registration Number is required.
+                    </div>
+                    <div *ngIf="!vehicleForm.get('vehicleRegistrationNo')?.hasError('required') 
+                              && vehicleForm.get('vehicleRegistrationNo')?.hasError('pattern')" class="text-danger">
+                        Only alphanumeric 8 to 10 characters.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Type of Driving<span class="text-danger">*</span></label>
+                <select class="form-control" formControlName="vehicleTransmission" (change)="onTransmissionChange($event)">
+                    <option value="">Select</option>
+                    <option *ngFor="let option of transmissionOptions" [value]="option.id">
+                        {{ option.name }}
+                    </option>
+                </select>
+                <div *ngIf="vehicleForm.get('vehicleTransmission')?.touched && vehicleForm.get('vehicleTransmission')?.invalid" class="text-danger">
+                    Type is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Valid From</label>
+                <input type="date" class="form-control" formControlName="InsuranceValidFrom" [max]="today">
+                <div *ngIf="vehicleForm.get('InsuranceValidFrom')?.touched && vehicleForm.get('InsuranceValidFrom')?.invalid" class="text-danger">
+                    Valid From date is required.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expiry Date</label>
+                <input type="date" class="form-control" formControlName="InsuranceValidTo" [attr.min]="minExpiryDate">
+                <div *ngIf="vehicleForm.get('InsuranceValidTo')?.touched && vehicleForm.get('InsuranceValidTo')?.invalid"
+                    class="text-danger">
+                    Expiry Date is required.
+                </div>
+                <div *ngIf="licenseExpiryMessage" class="text-danger mt-1">
+                    {{ licenseExpiryMessage }}
+                </div>
+            </div>
+           
+            <div class="mb-3">
+                <label class="form-label">Vehicle Insurance Document</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="vehicleForm.invalid">Save</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #editLicenseDetails let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Edit License Details</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onCloseModal()"></button>
+    </div>
+
+    <form [formGroup]="licenseForm" (ngSubmit)="saveLicenseChanges(modal)">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label class="form-label">License Type<span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="licenseType" (change)="onLicenseTypeChange($event)">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let option of licenseTypeOptions" [value]="option.id">
+                        {{ option.name }}
+                    </option>
+                </select>
+                <div *ngIf="licenseForm.get('licenseType')?.touched && licenseForm.get('licenseType')?.invalid" class="text-danger">
+                    License Type is required.
+                </div>
+            </div>
+
+            <!-- Driving School Name (only for PDI) -->
+            <div class="mb-3" *ngIf="licenseForm.get('licenseType')?.value == LicenseType.PDI">
+                <label class="form-label">Driving School Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="drivingSchoolName" />
+                <div *ngIf="licenseForm.get('drivingSchoolName')?.touched && licenseForm.get('drivingSchoolName')?.invalid" class="text-danger">
+                    <div *ngIf="licenseForm.get('drivingSchoolName')?.errors?.['required']">
+                        Driving School Name is required.
+                    </div>
+                    <div *ngIf="licenseForm.get('drivingSchoolName')?.errors?.['pattern']">
+                        Only alphabets and spaces are allowed.
+                    </div>
+                </div>
+            </div>
+           
+
+            <!-- ADI / PDI Number -->
+            <div class="mb-3">
+                <label class="form-label">
+                    {{ licenseForm.get('licenseType')?.value == LicenseType.PDI ? 'PDI' : 'ADI' }} Number
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" formControlName="licenseADIPDINumber" />
+                <div *ngIf="licenseForm.get('licenseADIPDINumber')?.touched && licenseForm.get('licenseADIPDINumber')?.invalid" class="text-danger">
+                    <div *ngIf="licenseForm.get('licenseADIPDINumber')?.errors?.['required']">
+                        ADI/PDI Number is required.
+                    </div>
+                    <div *ngIf="licenseForm.get('licenseADIPDINumber')?.errors?.['pattern']">
+                        <ng-container *ngIf="licenseForm.get('licenseType')?.value == LicenseType.ADI">
+                            ADI Number must be exactly 6 Number.
+                        </ng-container>
+                        <ng-container *ngIf="licenseForm.get('licenseType')?.value == LicenseType.PDI">
+                            PDI Number must be 8 to 10 alphanumeric characters.
+                        </ng-container>
+                    </div>
+                  
+                </div>
+            </div>
+          
+
+            <div class="mb-3">
+                <label class="form-label">License Valid From<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="licenseValidFrom" [max]="today">
+                <div *ngIf="licenseForm.get('licenseValidFrom')?.touched && licenseForm.get('licenseValidFrom')?.invalid" class="text-danger">
+                    Valid From date is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">License Expiry Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="licenseValidTo" [attr.min]="minlicenseExpiryDate">
+                <div *ngIf="licenseForm.get('licenseValidTo')?.touched && licenseForm.get('licenseValidTo')?.invalid" class="text-danger">
+                    Expiry Date is required.
+                </div>
+                <div *ngIf="licenseExpiryMessage" class="text-danger mt-1">
+                    {{ licenseExpiryMessage }}
+                </div>
+            </div>
+
+
+            <!-- Driving License Number -->
+            <div class="mb-3">
+                <label class="form-label">Driving License Number<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="licenseNumber" />
+                <div *ngIf="licenseForm.get('licenseNumber')?.touched && licenseForm.get('licenseNumber')?.invalid" class="text-danger">
+                    <div *ngIf="licenseForm.get('licenseNumber')?.errors?.['required']">
+                        Driving License Number is required.
+                    </div>
+                    <div *ngIf="licenseForm.get('licenseNumber')?.errors?.['pattern']">
+                        License Number must be exactly 16 alphanumeric characters.
+                    </div>
+                </div>
+            </div>
+          
+
+            <div class="mb-3">
+                <label class="form-label">License Front Side Document</label>
+                <input type="file" class="form-control" (change)="onLicenseFrontFileSelected($event)" accept="image/*">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">License Back Side Document</label>
+                <input type="file" class="form-control" (change)="onLicenseBackFileSelected($event)" accept="image/*">
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="licenseForm.invalid">Save</button>
+        </div>
+    </form>
+</ng-template>

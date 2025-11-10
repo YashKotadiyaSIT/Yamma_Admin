@@ -21,6 +21,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'instructor',
+    // canActivate: [authGuard],
+    loadChildren: () =>
+      import('../../pages/instructor/instructor.module').then(
+        (m) => m.InstructorModule
+      ),
+  },
+  {
     path: 'redirect',
     canActivate: [authGuard],
     loadChildren: () =>

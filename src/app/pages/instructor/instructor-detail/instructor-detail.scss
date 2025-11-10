@@ -1,0 +1,53 @@
+.btn-icon {
+    border: none;
+    /* Remove border */
+    background: none;
+    /* Remove background */
+    padding: 0;
+    /* Remove padding */
+    cursor: pointer;
+    /* Show hand cursor */
+}
+
+.btn-icon img {
+    width: 20px;
+    /* Adjust size */
+    height: 20px;
+}
+
+.user-p-btn {
+    width: 200px;
+    height: 200px;
+}
+
+.user-p-btn button {
+    position: absolute;
+    right: 1px;
+    bottom: 10px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 100%;
+    border: 2px solid #ddd;
+}
+
+.image-border {
+    border: 3px solid #dfdfdf;
+    border-radius: 100%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.edit-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 100%;
+    border: 2px solid #ddd;
+}
+
+.accordion-body {
+    position: relative;
+}

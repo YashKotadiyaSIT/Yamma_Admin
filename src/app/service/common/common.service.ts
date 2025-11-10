@@ -17,6 +17,9 @@ import { AuthService } from '../authService/auth.service';
 
 export class CommonService {
 
+  public DateFormatString = "dd/MM/yyyy";
+  public DateTimeFormatString = "dd/MM/yyyy hh:mm:ss tt";
+
   public emailRegex: RegExp = /^(?=.{1,30}@)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   private readonly userImageSource = new BehaviorSubject<string | null>(null);
