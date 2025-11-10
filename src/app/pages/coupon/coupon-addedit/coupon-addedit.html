@@ -1,0 +1,180 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ couponId > 0 ? 'Edit Coupon' : 'Add Coupon' }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dismissModal()"></button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="couponForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label class="form-label">Coupon Color <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="couponColor">
+        <option value="">Select Color</option>
+        <option *ngFor="let color of colorList" [value]="color.colorCode">
+          {{ color.colorName }} 
+        </option>
+      </select>
+
+            <div *ngIf="isInvalid('couponColor')" class="text-danger">
+                Coupon color is required.
+            </div>
+        </div>
+
+      
+        <div class="mb-3">
+            <label class="form-label">Title<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter Title" formControlName="couponTitle" />
+            <div *ngIf="isInvalid('couponTitle')" class="text-danger">Title is required.</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Coupon Code<span class="text-danger">*</span></label>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter Coupon Code" formControlName="couponCode" style="text-transform: uppercase" maxlength="8" minlength="8" (input)="onInputChange($event)" />
+                <button   *ngIf="couponId == 0" class="btn btn-outline-secondary" type="button" (click)="generateCouponCode()">
+          Generate New
+        </button>
+            </div>
+            <div *ngIf="isInvalid('couponCode')" class="text-danger">
+                <ng-container *ngIf="couponForm.get('couponCode')?.errors?.['required']">
+                    Coupon Code is required.
+                </ng-container>
+                <ng-container *ngIf="couponForm.get('couponCode')?.errors?.['minlength']">
+                    Coupon Code must be exactly 8 characters.
+                </ng-container>
+            </div>
+        </div>
+
+    <div class="mb-3">
+        <label class="form-label">Terms & Conditions<span class="text-danger">*</span></label>
+        <textarea #termsTextarea class="form-control fixed-size-textarea" rows="4" placeholder="Enter Terms & Conditions"
+            formControlName="termsAndConditions" (input)="limitLinesByHeight()" (paste)="limitLinesByHeight()"></textarea>
+        <div *ngIf="isInvalid('termsAndConditions')" class="text-danger">
+            <small *ngIf="couponForm.get('termsAndConditions')?.hasError('required')">
+                Terms & Conditions are required.
+            </small>
+            <small *ngIf="couponForm.get('termsAndConditions')?.hasError('maxlength')">
+                Terms & Conditions cannot exceed 400 characters.
+            </small>
+        </div>
+    </div>
+     
+
+
+        <div class="row mb-3 align-items-start">
+            <div class="col-md-6 d-flex align-items-center position-relative">
+                <!-- Amount Radio Button -->
+                <div class="form-check form-check-inline me-2 radio-button">
+                    <input class="form-check-input" type="radio" id="amountType" formControlName="couponRewardType"  [value]="2" (change)="onTypeChange(2)" />
+                </div>
+
+                <!-- Amount Input Field -->
+                <div class="d-flex flex-column w-100">
+                    <input type="number" class="form-control" placeholder="Amount" formControlName="amount" [disabled]="couponForm.controls['couponRewardType'].value !== 2" min="0" />
+                    <div *ngIf="isInvalid('amount')" class="text-danger mt-1">
+                        <small *ngIf="couponForm.get('amount')?.hasError('required')">
+              Amount is required.
+            </small>
+                        <small *ngIf="couponForm.get('amount')?.hasError('min')">
+              Amount cannot be negative.
+            </small>
+                        <small *ngIf="couponForm.get('amount')?.hasError('pattern')">
+              Only four digit and after point 2 digits is allowed.
+            </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 d-flex align-items-center position-relative">
+                <!-- Percentage Radio Button -->
+                <div class="form-check form-check-inline me-2 radio-button ">
+                    <input class="form-check-input" type="radio" id="percentageType" formControlName="couponRewardType" [value]="1"  (change)="onTypeChange(1)" />
+                </div>
+
+                <!-- Percentage Input Field -->
+                <div class="d-flex flex-column w-100">
+                    <input type="number" class="form-control" placeholder="Percentage" [min]="0" [max]="100" formControlName="percentage" [disabled]="couponForm.controls['couponRewardType'].value !== 1" />
+                    <div *ngIf="isInvalid('percentage')" class="text-danger mt-1">
+                        <div *ngIf="couponForm.get('percentage')?.hasError('required')">Percentage is required.</div>
+                        <div *ngIf="couponForm.get('percentage')?.hasError('min')">Percentage must be at least 0.</div>
+                        <div *ngIf="couponForm.get('percentage')?.hasError('max')">Percentage cannot be greater than 100.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <!-- Minimum Amount -->
+            <div class="col">
+                <label class="form-label">Minimum Amount<span class="text-danger">*</span></label>
+                <div class="tooltip"> <i class="bi bi-info-circle ms-1 text-muted"></i>
+                    <span class="tooltiptext">Description Pending</span>
+                </div>
+
+                <input type="number" class="form-control" formControlName="minAmount" min="0" />
+                <div *ngIf="isInvalid('minAmount')" class="text-danger">
+                    <small *ngIf="couponForm.get('minAmount')?.hasError('required')">
+              Minimum Amount is required.
+            </small>
+                    <small *ngIf="couponForm.get('minAmount')?.hasError('min')">
+              Minimum Amount cannot be negative.
+            </small>
+                    <small *ngIf="couponForm.get('minAmount')?.hasError('pattern')">
+              Only four digit and after point 2 digits is allowed.
+            </small>
+                    <!-- Minimum amount is required and must be 0 or more. -->
+                </div>
+            </div>
+
+            <!-- Max Usage Limit -->
+            <div class="col">
+                <label class="form-label">Max Usage Limit<span class="text-danger">*</span></label>
+                <div class="tooltip"> <i class="bi bi-info-circle ms-1 text-muted"></i>
+                    <span class="tooltiptext">Description Pending</span>
+                </div>
+
+                <input type="number" class="form-control" formControlName="maxUsageLimit" min="1" />
+                <div *ngIf="isInvalid('maxUsageLimit')" class="text-danger">
+                    <small *ngIf="couponForm.get('maxUsageLimit')?.hasError('required')">
+            Max Usage Limit is required
+          </small>
+                    <small *ngIf="couponForm.get('maxUsageLimit')?.hasError('min')">
+            Max Usage Limit cannot be less than 1
+          </small>
+                    <small *ngIf="couponForm.get('maxUsageLimit')?.hasError('max')">
+            Max Usage Limit cannot be greater than 7
+          </small>
+                </div>
+            </div>
+          
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Start Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="startDate" onkeydown="return false" [min]="today" />
+                <div *ngIf="isInvalid('startDate')" class="text-danger">
+                    Start date is required.
+                </div>
+            </div>
+
+            <div class="col">
+                <label class="form-label">Expire Date<span class="text-danger">*</span></label>
+                <input [min]="today" type="date" class="form-control" formControlName="expiryDate" onkeydown="return false" />
+                <div *ngIf="isInvalid('expiryDate')" class="text-danger">
+                    Expire date is required.
+                </div>
+                <div *ngIf="couponForm.errors?.['expiryInvalid']" class="text-danger">
+                    Expiry date must be today or a future date.
+                </div>
+                <div *ngIf="couponForm.errors?.['dateRangeInvalid']" class="text-danger">
+                    Start date must be before the expiry date.
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="dismissModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
