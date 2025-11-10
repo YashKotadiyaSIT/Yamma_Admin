@@ -13,6 +13,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'booking',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('../../pages/booking/booking-module').then(
+        (m) => m.BookingModule
+      ),
+  },
+  {
     path: 'setting',
     canActivate: [authGuard],
     loadChildren: () =>

@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-xl-12">
+      <button class="btn btn-secondary" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <app-card cardTitle="Booking Details" [options]="false">
+        <div class="row">
+          <div class="col-xl-12 col-lg-8 col-md-8 col-sm-12 col-12">
+            <div ngbAccordion>
+              <div ngbAccordionItem [collapsed]="!isSlotDetailsOpen">
+                <h2 ngbAccordionHeader>
+                  <button ngbAccordionButton>Booking Details</button>
+                </h2>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody>
+                    <div class="row">
+                
+                      <div class="col-xl-10 col-lg-8 col-md-8 col-sm-12 col-12">
+                        <div>
+                          <strong>Student Name : </strong> {{ bookingData?.studentName }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Instructor Name : </strong> {{ bookingData?.instructorName }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Date of Booking : </strong> {{ bookingData?.dateOfBooking | date:'dd/MM/yyyy HH:mm' }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Booking Type : </strong> {{ bookingData?.bookingType }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Total Amount : </strong> {{ bookingData?.totalAmount }}
+                        </div>
+                         <div class="pt-2">
+                          <strong>Pay Amount : </strong> {{ bookingData?.payAmount }}
+                        </div>
+                         <div class="pt-2">
+                          <strong>Discount Amount : </strong> {{ bookingData?.discountAmount }}
+                        </div>
+                         <div class="pt-2">
+                          <strong>Yamma Commission Amount : </strong> {{ bookingData?.commissionAmount }}
+                        </div>
+                         <div class="pt-2" [hidden]="bookingData?.bundleName">
+                          <strong>Price Per Hours : </strong> {{ bookingData?.pricePerHour }}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Total Hours : </strong> {{ bookingData?.totalHours }}
+                        </div>
+                         <div class="pt-2">
+                          <strong>Booked Hours : </strong> {{ bookingData?.bookedHours }}
+                        </div>
+                          <div class="pt-2">
+                            <strong>Wallet Hours : </strong> {{ bookingData?.remainingHours }}
+                          </div>
+                         <div class="pt-2">
+                          <strong>Is Coupon Applied : </strong> {{ bookingData?.isCouponApplied  ? 'Yes' : 'No' }}
+                        </div>
+                        <div class="pt-2" [hidden]="!bookingData?.isCouponApplied" >
+                          <strong>CouponName : </strong> {{ bookingData?.couponName }}
+                        </div>
+                         <div class="pt-2">
+                          <strong>Stripe Reference Id : </strong> {{ bookingData?.stripeTransactionID}}
+                        </div>
+                        <div class="pt-2">
+                          <strong>Stripe Client Scecret Id : </strong> {{ bookingData?.clientSecretId}}
+                        </div>
+                         <div class="pt-2" [hidden]="!bookingData?.bundleName" >
+                          <strong>Bundle Name  : </strong> {{ bookingData?.bundleName }}
+                        </div>
+                         <div class="pt-2">
+                          <strong>Pick Up Location : </strong> {{ bookingData?.pickUpLocationDetail }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  
+  

@@ -7,6 +7,7 @@ import { NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { Card } from '../card/card';
 import { Grid } from '../grid/grid';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
+import { NgSelectModule } from '@ng-select/ng-select';
 // import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 // import { Grid } from '../grid/grid';
 
@@ -34,7 +35,8 @@ import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
     NgbModule,
     NgScrollbarModule,
     NgbCollapseModule,
-    Breadcrumbs
+    Breadcrumbs,
+    NgSelectModule
   ]
 })
 export class SharedModule { }

@@ -186,7 +186,7 @@ export class CommonService {
 
   Encrypt(input: string): string {
     try {
-      return btoa(unescape(encodeURIComponent(input)));
+      return encodeURIComponent(btoa(unescape(input)));
     } catch (e) {
       console.error('Encoding failed', e);
       return '';
@@ -195,7 +195,7 @@ export class CommonService {
 
   Decrypt(encoded: string): string {
     try {
-      return decodeURIComponent(escape(atob(encoded)));
+      return escape(atob(decodeURIComponent(encoded)));
     } catch (e) {
       console.error('Decoding failed', e);
       return '';
