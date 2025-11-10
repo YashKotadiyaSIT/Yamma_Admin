@@ -29,6 +29,7 @@
     "@angular/localize": "^20.3.10",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "@kolkov/angular-editor": "^3.0.0-beta.2",
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
     "@ng-select/ng-select": "^20.7.0",
     "ag-grid-angular": "^34.3.1",

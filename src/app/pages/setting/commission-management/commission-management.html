@@ -1,0 +1,79 @@
+<div class="card">
+    <div class="card-body">
+
+      <!-- Commission Form -->
+      <form [formGroup]="CommissionForm" (ngSubmit)="submitCommissionForm()">
+        <div class="row align-items-center mb-3">
+          <label class="col-sm-2 col-form-label fw-bold">
+            Commission (%)
+            <i class="bi bi-info-circle ms-1 text-muted" title="Enter commission between 15% and 100%"></i>
+          </label>
+
+          <div class="col-sm-2">
+            <input type="number" formControlName="Commission" class="form-control" placeholder="15 - 100" min="15"
+              max="100" />
+
+            <!-- Validation -->
+            <div class="text-danger mt-1"
+              *ngIf="CommissionForm.get('Commission')?.touched && CommissionForm.get('Commission')?.invalid">
+              <small *ngIf="CommissionForm.get('Commission')?.errors?.['required']">
+                Commission is required.
+              </small>
+              <small *ngIf="CommissionForm.get('Commission')?.errors?.['min']">
+                Must be at least 15%.
+              </small>
+              <small *ngIf="CommissionForm.get('Commission')?.errors?.['max']">
+                Cannot exceed 100%.
+              </small>
+            </div>
+          </div>
+
+          <div class="col-sm-1">
+            <button class="btn btn-primary w-100" type="submit" [disabled]="CommissionForm.invalid"
+              [hidden]="!editRights">
+              {{ LabelConstants.Update }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <hr />
+
+      <!-- Referral Form -->
+      <form [formGroup]="ReferralForm" (ngSubmit)="submitReferralForm()">
+        <div class="row align-items-center mb-3">
+          <label class="col-sm-2 col-form-label fw-bold">
+            Referral Value (£)
+            <i class="bi bi-info-circle ms-1 text-muted" title="Enter referral amount between $1 and $500"></i>
+          </label>
+
+          <div class="col-sm-2">
+            <input type="number" formControlName="ReferralCodeAmount" class="form-control" placeholder="1 - 500"
+              min="1" max="500" />
+
+            <!-- Validation -->
+            <div class="text-danger mt-1"
+              *ngIf="ReferralForm.get('ReferralCodeAmount')?.touched && ReferralForm.get('ReferralCodeAmount')?.invalid">
+              <small *ngIf="ReferralForm.get('ReferralCodeAmount')?.errors?.['required']">
+                Referral code amount is required.
+              </small>
+              <small *ngIf="ReferralForm.get('ReferralCodeAmount')?.errors?.['min']">
+                Must be at least $1.
+              </small>
+              <small *ngIf="ReferralForm.get('ReferralCodeAmount')?.errors?.['max']">
+                Cannot exceed $500.
+              </small>
+            </div>
+          </div>
+
+          <div class="col-sm-1">
+            <button class="btn btn-primary w-100" type="submit" [disabled]="ReferralForm.invalid"
+              [hidden]="!editRights">
+              {{ LabelConstants.Update }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>

@@ -9,6 +9,7 @@ import { Grid } from '../grid/grid';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
+import { NgSelectModule } from '@ng-select/ng-select';
 // import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 // import { Grid } from '../grid/grid';
 
@@ -39,7 +40,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     NgbModule,
     NgScrollbarModule,
     NgbCollapseModule,
-    Breadcrumbs
+    Breadcrumbs,
+    NgSelectModule
   ]
 })
 export class SharedModule { }
