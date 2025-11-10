@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       import('../../pages/user/user.module').then(
         (m) => m.UserModule
@@ -22,10 +22,18 @@ const routes: Routes = [
   },
   {
     path: 'instructor',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       import('../../pages/instructor/instructor.module').then(
         (m) => m.InstructorModule
+      ),
+  },
+  {
+    path: 'student',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('../../pages/student/student.module.js').then(
+        (m) => m.StudentModule
       ),
   },
   {

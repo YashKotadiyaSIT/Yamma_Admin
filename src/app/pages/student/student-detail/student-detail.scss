@@ -1,0 +1,252 @@
+.user-profile-container {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin-right: 10px;
+    font-size: 16px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.user-profile-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    /* Removes any default margin */
+}
+
+.image-border {
+    border: 3px solid #dfdfdf;
+    border-radius: 100%;
+}
+
+.user-profile-content {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allows wrapping on smaller screens */
+    gap: 230px;
+    /* Space between profile picture and details */
+}
+
+.profile-picture {
+    flex: 1;
+    text-align: center;
+    min-width: 150px;
+    /* Ensures the picture doesn't shrink too much */
+}
+
+.profile-picture img {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.profile-details {
+    flex: 2;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    /* Stack rows vertically */
+    gap: 10px;
+    /* Adds space between rows */
+}
+
+.profile-row {
+    display: flex;
+    justify-content: flex-start;
+    /* Aligns items to the left */
+    align-items: center;
+    /* Centers items vertically */
+    gap: 20px;
+    /* Adds space between label and value */
+}
+
+.profile-row strong {
+    width: 150px;
+    /* Fixed width for labels to align them */
+    text-align: right;
+    /* Aligns label text to the right */
+    color: #333;
+}
+
+.profile-row span {
+    flex: 1;
+    text-align: left;
+    /* Aligns value text to the left */
+    color: #555;
+}
+
+.profile-details p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+    text-align: left;
+    /* Ensures the text is aligned to the left */
+}
+
+.license-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align the label and image to the left */
+    gap: 10px;
+}
+
+.booking-details-section {
+    margin-top: 30px;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.booking-table th,
+.booking-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.booking-table th {
+    background-color: #f4f4f4;
+}
+
+.accepted {
+    color: green;
+}
+
+.pending {
+    color: orange;
+}
+
+
+/* Media Queries for Smaller Screens */
+
+@media (max-width: 768px) {
+    .user-profile-header {
+        flex-direction: column;
+        /* Stacks header items on small screens */
+        align-items: flex-start;
+    }
+    .user-profile-content {
+        flex-direction: column;
+        /* Stacks profile picture and details */
+        align-items: center;
+        /* Centers content on small screens */
+    }
+    .profile-picture img {
+        max-width: 150px;
+        /* Reduces image size on smaller screens */
+    }
+    .license-photo img {
+        width: 100%;
+        /* Makes license photo responsive */
+        max-width: 300px;
+        /* Limits the max size */
+    }
+    .profile-details p {
+        font-size: 0.9rem;
+        /* Reduces font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile-title {
+        font-size: 1.2rem;
+        /* Smaller title on very small screens */
+    }
+    .profile-details p {
+        font-size: 0.8rem;
+        /* Further reduce font size */
+    }
+    .license-photo img {
+        max-width: 100%;
+        /* Ensures photo takes full width */
+    }
+}
+
+.btn-icon {
+    border: none;
+    /* Remove border */
+    background: none;
+    /* Remove background */
+    padding: 0;
+    /* Remove padding */
+    cursor: pointer;
+    /* Show hand cursor */
+}
+
+.btn-icon img {
+    width: 20px;
+    /* Adjust size */
+    height: 20px;
+}
+
+.user-p-btn {
+    width: 200px;
+    height: 200px;
+}
+
+.user-p-btn button {
+    position: absolute;
+    right: 1px;
+    bottom: 10px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 100%;
+    border: 2px solid #ddd;
+}
+
+.skill-legend-color-box {
+        border: 1px solid #ccc;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: middle;
+        padding: 0;
+        border-radius: 4px; 
+    }
+
+    /* Styling for the Activities Grid */
+    .progress-grid {
+        table-layout: fixed;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .progress-grid th, .progress-grid td {
+        padding: 0.8rem 0.2rem; /* Increased padding for visual spacing */
+        vertical-align: middle;
+        font-size: 0.95rem;
+        border-bottom: 1px solid #eee; /* Horizontal line separator */
+    }
+    .activity-column {
+        text-align: left;
+        font-weight: 500;
+        width: 60%; 
+    }
+    .skill-column {
+        width: 8%; /* Distribute skill level columns evenly (5 columns * 8% = 40% of width) */
+    }
+    .checkmark-icon {
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: #000; /* Use black checkmark to match the image */
+    }
+    .progress-grid tbody tr:last-child td {
+        border-bottom: none;
+    }

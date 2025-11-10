@@ -292,7 +292,7 @@ export class InstructorList {
   onView(data: any) {
     this.storageService.setVerificationStatus(this.verificationStatus);
     this.storageService.setSearchData(this.searchData);
-    this.router.navigate(['/instructor-profile', this.commonService.Encrypt(data.userId)]);
+    this.router.navigate(['/instructor/instructor-detail', this.commonService.Encrypt(data.userId)]);
   }
 
   onEdit(data: any) {
