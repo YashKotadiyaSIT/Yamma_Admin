@@ -36,13 +36,19 @@
                 "input": "public"
               },
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@kolkov/angular-editor/assets/icons",
+                "output": "assets/ae-icons/"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
               "src/styles.scss",
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css"
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/@kolkov/angular-editor/themes/default.scss"
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"

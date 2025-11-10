@@ -1,0 +1,35 @@
+<!-- Custom Tab Navigation -->
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" [ngClass]="{ 'active': activeTab === 'privacy' }" (click)="activeTab = 'privacy'">
+            Privacy Policy
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" [ngClass]="{ 'active': activeTab === 'terms' }" (click)="activeTab = 'terms'">
+            Terms and Conditions
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" [ngClass]="{ 'active': activeTab === 'commission' }"
+            (click)="activeTab = 'commission'">
+            Commission Management
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content mt-3">
+    <div>
+        @if(activeTab === 'privacy'){
+        <div>
+            <app-privacy-policy></app-privacy-policy>
+        </div>
+        }
+        @if(activeTab === 'terms'){
+        <app-terms-conditions></app-terms-conditions>
+        }
+        @if(activeTab === 'commission'){
+        <app-commission-management></app-commission-management>
+        }
+    </div>
+</div>
