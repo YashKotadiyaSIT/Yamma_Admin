@@ -1,0 +1,330 @@
+<div class="row">
+    <div class="col-xl-12">
+        <button class="btn btn-secondary btn-sm mb-3" (click)="goBack()">
+      <i class="fa fa-arrow-left me-0"></i>
+    </button>
+        <app-card [cardTitle]="'Student Details - ' + user?.firstName + ' ' + user?.lastName" [options]="false">
+            <div class="row">
+                <div class="col-xl-12 col-lg-8 col-md-8 col-sm-12 col-12">
+                    <div ngbAccordion>
+                        <div ngbAccordionItem [collapsed]="false">
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Personal Details</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div class="row">
+                                        <!-- Left side: Personal Details -->
+                                        <div class="col-xl-9 col-lg-7 col-sm-12 col-12">
+                                            <div>
+                                                <strong>First Name : </strong> {{ user?.firstName }}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Last Name : </strong> {{ user?.lastName }}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Date of Birth : </strong> {{ user?.dateOfBirth | date:'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Gender : </strong> {{ user?.gender }}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Email Address : </strong> {{ user?.email }}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>Phone Number : </strong> +44 {{ user?.phone }}
+                                            </div>
+                                            <div class="pt-2">
+                                                <strong>License Number : </strong> {{ user?.licensenumber }}
+                                            </div>
+                                            <div class="pt-2" [hidden]="!user?.referreralUserCode">
+                                                <strong>Referral UserCode  : </strong> {{ user?.referreralUserCode }}
+                                            </div>
+                                            <div class="pt-2" [hidden]="!user?.referreralUserName">
+                                                <strong>Referral Username  : </strong> {{ user?.referreralUserName }}
+                                            </div>
+                                             <div class="pt-2">
+                                                <strong>Rating : </strong>  {{user?.rating}}
+                                            </div>
+                                            <div class="d-flex align-items-center pt-2">
+                                                <strong>License Front Side Image:</strong>
+                                                <a class="ms-1" [href]="user?.licenseFrontSideImage || 'https://via.placeholder.com/150'" target="_blank"
+                                                    rel="noopener">
+                                                    View Document
+                                                </a>
+                                            </div>
+                                            
+                                            <div class="d-flex align-items-center pt-2">
+                                                <strong>License Back Side Image:</strong>
+                                                <a class="ms-1" [href]="user?.licenseBackSideImage || 'https://via.placeholder.com/150'" target="_blank"
+                                                    rel="noopener">
+                                                    View Document
+                                                </a>
+                                            </div>
+                                            
+                                            </div>
+
+                                        <div class="col-xl-3 col-lg-5 col-sm-12 col-12 d-lg-flex justify-content-lg-end ">
+                                            <div class="d-flex flex-column align-items-center position-relative user-p-btn">
+                                                <!-- Centered Edit button -->
+                                                <button [hidden]="!editRights" class="btn-icon" (click)="openEditModal()">
+                                                    <img src="assets/images/edit.svg" alt="Edit" />
+                                                </button>
+                                                <img [src]="user?.imagedoc || 'https://via.placeholder.com/150'" style="height: 200px;"
+                                                    class="img-fluid image-border" (error)="setPlaceholderImage($event)" alt="Profile Image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordion class="pt-3">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Question Answer Details</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <div>
+                                        <strong>1)</strong> Do you have your provisional license, please write your driving license number, And Upload photo of license ?
+                                        <p style="margin-left: 15px;"><b> {{ user?.answer1 }}</b></p>
+                                    </div>
+                                    <div>
+                                        <strong>2) </strong> Have you passed your theory test?
+                                        <p style="margin-left: 15px;"><b>{{ user?.answer2 }}</b></p>
+                                    </div>
+                                    <div>
+                                        <strong>3) </strong> Have you had driving lessons before?
+                                        <p style="margin-left: 15px;"><b>{{ user?.answer3 }}</b></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ngbAccordion class="pt-3" *ngIf="ProgressReportMasterDetail?.studentProgress.length > 0">
+                        <div ngbAccordionItem>
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton>Progress Report</button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <ng-template>
+                                    <div class="row pt-2 ">
+                                        <div class="col-md-4">
+                                            <ng-container *ngIf="skillLevelMasterDetail && skillLevelMasterDetail.length > 0">
+                                                <table class="table table-bordered table-striped table-sm" style="width: 400px; text-align: center;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2"> Progress Report info</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Skill Color</th>
+                                                            <th>Skill Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let r of skillLevelMasterDetail; let i = index">
+                                                            <td>
+                                                                <span class="badge"
+                                                                    [ngStyle]="{
+                                                                          'background-color': '#' + r.colorCode,
+                                                                          'color': '#fff',
+                                                                          'display': 'inline-block',
+                                                                          'width': '50px',
+                                                                          'height': '30px',
+                                                                          'line-height': '25px',
+                                                                          'text-align': 'center'
+                                                                        }">
+                                                                    {{r.skillLevelId}}
+                                                                </span>
+                                                            </td>
+                                                            <td>{{ r.description }}</td>
+                                        
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-container>
+                                            <ng-container *ngIf="!skillLevelMasterDetail || skillLevelMasterDetail.length === 0">
+                                                <p>No Data available.</p>
+                                            </ng-container>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ng-container
+                                                *ngIf="ProgressReportMasterDetail && ProgressReportMasterDetail.processedReport.length > 0; else noDataReport">
+                                                <table class="table table-bordered table-striped table-sm" style="width: 700px; text-align: center;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="activity-column" style="text-align: center;"><b>Activies</b></th>
+                                                            <th *ngFor="let skill of skillLevelMasterDetail">
+                                                                <span [ngStyle]="getSkillHeaderColor(skill.skillLevelId)">
+                                                                    {{ skill.skillLevelId }}
+                                                                </span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let report of ProgressReportMasterDetail.processedReport">
+                                                            <td class="activity-column" style="text-align: center;">{{ report.activityName }}</td>
+                                        
+                                                            <td *ngFor="let skill of skillLevelMasterDetail" class="text-center skill-column">
+                                                                <span *ngIf="report.skillLevelsAchieved[skill.skillLevelId]" class="checkmark-icon">
+                                                                    ✓
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-container>
+                                            <ng-template #noDataReport>
+                                                <p class="text-muted">No student progress data available.</p>
+                                            </ng-template>
+                                        </div>
+                                     </div>
+                                    </ng-template>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>
+<ng-template #editPersonalDetails let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Student Personal Details</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="editForm" (ngSubmit)="saveChanges(modal)">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="firstName">
+                <div *ngIf="editForm.get('firstName')?.touched">
+                    <!-- Required error -->
+                    <div *ngIf="editForm.get('firstName')?.hasError('required')" class="text-danger">
+                        First Name is required.
+                    </div>
+                    <!-- Pattern error -->
+                    <div *ngIf="!editForm.get('firstName')?.hasError('required') && editForm.get('firstName')?.hasError('pattern')" class="text-danger">
+                        First name can only contain letters and numbers
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="lastName">
+                <div *ngIf="editForm.get('lastName')?.touched">
+                    <!-- Required error -->
+                    <div *ngIf="editForm.get('lastName')?.hasError('required')" class="text-danger">
+                        Last Name is required.
+                    </div>
+                    <!-- Pattern error -->
+                    <div *ngIf="!editForm.get('lastName')?.hasError('required') 
+                                    && editForm.get('lastName')?.hasError('pattern')" class="text-danger">
+                        Last name can only contain letters and numbers
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="dob" [max]="maxDob">
+                <div *ngIf="editForm.get('dob')?.touched" class="text-danger">
+                    <div *ngIf="editForm.controls['dob'].hasError('minAge')">
+                        <ng-container *ngIf="editForm.controls['dob'].errors?.['minAge'].actualAge !== null; else invalidDate">
+                            Must be at least 18 years old
+                        </ng-container>
+                        <ng-template #invalidDate>
+                            Invalid Date of Birth
+                        </ng-template>
+                    </div>
+                    <div *ngIf="editForm.controls['dob'].hasError('required')">
+                        Date of Birth is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Gender <span class="text-danger">*</span></label>
+                <select class="form-control" formControlName="gender">
+                    <option value="">Select</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Other</option>
+                </select>
+                <div *ngIf="editForm.get('gender')?.touched && editForm.get('gender')?.invalid" class="text-danger">
+                    Gender is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="email">
+                <div *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('required')" class="text-danger">
+                    Email is required.
+                </div>
+                <div *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('pattern')" class="text-danger">
+                    Enter a valid email address.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <span class="input-group-text">+44</span>
+                    <input type="text" class="form-control" formControlName="phoneno" placeholder="Enter Phone Number" maxlength="13" />
+                </div>
+                <div *ngIf="editForm.get('phoneno')?.touched && editForm.get('phoneno')?.hasError('required')" class="text-danger">
+                    Phone number is required.
+                </div>
+                <div *ngIf="editForm.get('phoneno')?.touched && editForm.get('phoneno')?.hasError('pattern')" class="text-danger">
+                    Phone number must be between 10 and 13 digits.
+                </div>
+            </div>
+
+
+        
+
+            <div class="mb-3">
+                <label class="form-label">License Number <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="licenseNumber" maxlength="16" placeholder="Enter 16-character License Number" />
+                <div *ngIf="editForm.get('licenseNumber')?.touched && editForm.get('licenseNumber')?.hasError('required')" class="text-danger">
+                    License Number is required.
+                </div>
+                <div *ngIf="editForm.get('licenseNumber')?.touched && editForm.get('licenseNumber')?.hasError('pattern')" class="text-danger">
+                    License Number must be exactly 16 alphanumeric characters.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                    <label class="form-label">Profile Picture</label>
+                    <input type="file" class="form-control" (change)="onchangeProfile($event)" accept="image/*">
+             </div>
+
+            <div class="mb-3">
+                <label class="form-label">License Front Side Image</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event, 'front')" accept="image/*">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">License Back Side Image</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event, 'back')" accept="image/*">
+            
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Save</button>
+        </div>
+    </form>
+</ng-template>
+
+
