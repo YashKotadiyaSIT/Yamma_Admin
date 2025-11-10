@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../../guard/auth.guard';
-// import { authGuard } from '../../guard/auth.guard';
+import { MyProfile } from '../../component/my-profile/my-profile';
 
 const routes: Routes = [
   {
@@ -83,7 +83,12 @@ const routes: Routes = [
       import('../../pages/stripe-configuration/stripe-configuration-module').then(
         (m) => m.StripeConfigurationModule
       ),
-  }
+  },
+  {
+    path: 'my-profile',
+    canActivate: [authGuard],
+    component: MyProfile,
+  },
 ];
 
 @NgModule({

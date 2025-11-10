@@ -9,7 +9,8 @@ import { FormGroup } from '@angular/forms';
 import { ApiResponse } from '../../models/commonModel';
 import { StorageService } from '../storage/storage.service';
 import { ErrorMessageConstants, TokenConstants } from '../../common/Constants/LabelConstants';
-import { AuthService } from '../authService/auth.service';
+import { ApiUrlHelper } from '../../common/api-url-helper';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,8 @@ export class CommonService {
   constructor(
     private readonly toster: ToastrService,
     private readonly spinner: NgxSpinnerService,
-    private readonly authService: AuthService,
+    private apiUrl: ApiUrlHelper,
+    private router: Router,
     private readonly http: HttpClient,
     private readonly storageService: StorageService
   ) { }
@@ -135,7 +137,7 @@ export class CommonService {
         this.toster.error(TokenConstants.Session_Expired);
       }
       this.spinner.hide();
-      this.authService.logout();
+      this.logout();
     }
     else if (error.status == HttpStatusCode.Forbidden) {
       if (this.IsError == false) {
@@ -143,12 +145,12 @@ export class CommonService {
         this.toster.error(TokenConstants.Session_Expired);
         this.storageService.clearStorage();
       }
-      this.authService.logout();
+      this.logout();
       this.spinner.hide();
     }
     else if (error.status === HttpStatusCode.InternalServerError) {
       this.toster.error(ErrorMessageConstants.Message)
-      this.authService.logout();
+      this.logout();
       this.spinner.hide();
     }
     else {
@@ -220,5 +222,30 @@ export class CommonService {
     const offsetHours = Math.floor(offset / 60).toString().padStart(2, '0');
     const offsetMinutes = Math.floor(offset % 60).toString().padStart(2, '0');
     return `${offsetOperator}${offsetHours}:${offsetMinutes}`;
+  }
+
+  logout() {
+    
+    if (localStorage.getItem("authToken") == null || localStorage.getItem("authToken") == undefined || localStorage.getItem("authToken") == "") {
+      return;
+    }
+    
+    let apiUrl = this.apiUrl.apiUrl.Login.logout;
+    this.doPost(apiUrl, {}).pipe().subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.storageService.clearStorage();
+            this.router.navigate(['/login']);
+          }
+          else {
+            this.storageService.clearStorage();
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (err) => {
+          this.storageService.clearStorage();
+            this.router.navigate(['/login']);
+        }
+      });
   }
 }

@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiUrlHelper } from '../../common/api-url-helper';
-import { CommonService } from '../common/common.service';
 import { StorageKey, StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -10,35 +7,10 @@ import { StorageKey, StorageService } from '../storage/storage.service';
 export class AuthService {
 
   constructor(
-    // private router: Router,
-    private apiUrl: ApiUrlHelper,
-    // private commonService: CommonService,
     private storageService: StorageService,
   ) { }
 
-  logout() {
-    if (localStorage.getItem("authToken") == null || localStorage.getItem("authToken") == undefined || localStorage.getItem("authToken") == "") {
-      return;
-    }
-
-    let apiUrl = this.apiUrl.apiUrl.Login.logout;
-    // this.commonService.doPost(apiUrl, {}).pipe().subscribe({
-    //   next: (response) => {
-    //     if (response.success) {
-    //       this.storageService.clearStorage();
-    //       this.router.navigate(['/login']);
-    //     }
-    //     else {
-    //       this.storageService.clearStorage();
-    //       this.router.navigate(['/login']);
-    //     }
-    //   },
-    //   error: (err) => {
-    //     this.storageService.clearStorage();
-    //       this.router.navigate(['/login']);
-    //   }
-    // });
-  }
+  
 
   isTokenExpired(): boolean {
     let expireDate = this.storageService.getValue(StorageKey.expireDate);

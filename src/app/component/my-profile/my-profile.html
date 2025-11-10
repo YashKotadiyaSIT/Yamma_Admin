@@ -1,0 +1,132 @@
+<h4>My Profile</h4>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 d-flex">
+      <div class="card p-4 flex-fill">
+        <h4 class="mb-4">Change Password</h4>
+            <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+              <div class="form-group password-wrapper">
+                <label for="oldPassword"><b>Enter Old Password</b></label>
+                <div class="password-input-container">
+                  <input [type]="isshowoldpwd ? 'text' : 'password'" class="form-control password-input" formControlName="oldPassword"
+                    id="oldPassword" placeholder="Enter Old Password" />
+                  <button type="button" class="toggle-password" (click)="isshowoldpwd = !isshowoldpwd" tabindex="-1">
+                    <i class="fa" [ngClass]="isshowoldpwd ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                </div>
+                <div *ngIf="passwordForm.get('oldPassword')?.touched && passwordForm.get('oldPassword')?.invalid" class="text-danger">
+                  <small *ngIf="passwordForm.get('oldPassword')?.hasError('required')">Old password is required.</small>
+                  <small *ngIf="passwordForm.get('oldPassword')?.hasError('minlength')">Minimum 8 characters required.</small>
+                  <small *ngIf="passwordForm.get('oldPassword')?.hasError('maxlength')">Maximum 15 characters allowed.</small>
+                </div>
+              </div>
+              <div class="form-group password-wrapper">
+                <label for="newPassword"><b>Enter New Password</b></label>
+                <div class="password-input-container">
+                  <input [type]="isshownewpwd ? 'text' : 'password'" class="form-control password-input" formControlName="newPassword"
+                    id="newPassword" placeholder="Enter New Password" />
+                  <button type="button" class="toggle-password" (click)="isshownewpwd = !isshownewpwd" tabindex="-1">
+                    <i class="fa" [ngClass]="isshownewpwd ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                </div>
+                <div *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid" class="text-danger">
+                  <small *ngIf="passwordForm.get('newPassword')?.hasError('required')">New password is required.</small>
+                  <small *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">Minimum 8 characters required.</small>
+                  <small *ngIf="passwordForm.get('newPassword')?.hasError('maxlength')">Maximum 15 characters allowed.</small>
+                </div>
+              </div>
+              <!-- Confirm Password Field -->
+              <div class="form-group password-wrapper mb-4">
+                <label for="confirmPassword"><b>Confirm New Password</b></label>
+                <div class="password-input-container">
+                  <input [type]="isshowconfirmpwd ? 'text' : 'password'" class="form-control password-input"
+                    formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm New Password" />
+                  <button type="button" class="toggle-password" (click)="isshowconfirmpwd = !isshowconfirmpwd" tabindex="-1">
+                    <i class="fa" [ngClass]="isshowconfirmpwd ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                </div>
+                <div *ngIf="passwordForm.get('confirmPassword').touched && passwordForm.get('confirmPassword').invalid"
+                  class="text-danger">
+                  <small *ngIf="passwordForm.get('confirmPassword').hasError('required')">
+                    Confirm Password is required.
+                  </small>
+                </div>
+                <div *ngIf="passwordForm.errors?.['confirmedValidator'] && passwordForm.get('confirmPassword').touched"
+                  class="text-danger">
+                  <small>New password and confirm password do not match.</small>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary custom-button" [disabled]="passwordForm.invalid">Submit</button>
+              </div>
+            </form>
+      </div>
+    </div>
+
+  <div class="col-lg-6 col-md-6 d-flex">
+    <div class="card p-4 flex-fill">
+      <h4 class="mb-4">Profile Details</h4>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <!-- Profile Image with Pencil Icon -->
+        <div class="d-flex justify-content-center mb-4">
+          <div class="profile-preview position-relative">
+            <img [src]="profileImage || 'https://via.placeholder.com/200'" (error)="setPlaceholderImage($event)"
+              alt="Profile Image" class="profile-img" />
+            <!-- Pencil Icon Overlay -->
+            <button type="button" class="edit-icon" (click)="fileInput.click()">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <!-- Hidden File Input -->
+            <input type="file" #fileInput class="d-none" (change)="onFileChange($event)" accept="image/jpeg, image/png" />
+          </div>
+        </div>
+        <!-- Profile Fields -->
+        <div class="mb-3">
+          <label class="form-label">First Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="firstName" />
+          <div class="text-danger" *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+            <div *ngIf="profileForm.get('firstName')?.hasError('required')">First name is required.</div>
+            <div *ngIf="profileForm.get('firstName')?.hasError('pattern')"> First name can only contain letters and numbers
+            </div>
+            <div *ngIf="profileForm.get('firstName')?.hasError('maxlength')">Maximum 30 characters allowed.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Last Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="lastName" />
+          <div class="text-danger" *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+            <div *ngIf="profileForm.get('lastName')?.hasError('required')">Last name is required.</div>
+            <div *ngIf="profileForm.get('lastName')?.hasError('pattern')"> Last name can only contain letters and numbers</div>
+            <div *ngIf="profileForm.get('lastName')?.hasError('maxlength')">Maximum 30 characters allowed.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" formControlName="email"  />
+          <div class="text-danger" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+            Valid email is required
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Phone No.</label>
+          <div class="input-group">
+            <span class="input-group-text">+44</span>
+            <input type="text" class="form-control" formControlName="phone" />
+          </div>
+          <div class="text-danger" *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched">
+            <small *ngIf="profileForm.get('phone')?.hasError('required')">Phone number is required.</small>
+            <small *ngIf="profileForm.get('phone')?.hasError('pattern')">Enter a valid phone number (10–13 digits).</small>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Role</label>
+          <input type="text" class="form-control" formControlName="role" />
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+          <button type="submit" class="btn btn-success" [disabled]="profileForm.invalid">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>

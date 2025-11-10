@@ -5,6 +5,7 @@ import { ApiUrlHelper } from '../../../../common/api-url-helper';
 import { AuthService } from '../../../../service/authService/auth.service';
 import { CommonService } from '../../../../service/common/common.service';
 import { ProfileService } from '../../../../service/Shared/profile.service';
+import { StorageService } from '../../../../service/storage/storage.service';
 
 @Component({
   selector: 'app-nav-right',
@@ -22,7 +23,8 @@ export class NavRight {
     private apiUrl: ApiUrlHelper,
     private commonService: CommonService,
     private spinner: NgxSpinnerService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private storageService: StorageService,
   ) {
   }
 
@@ -37,11 +39,11 @@ export class NavRight {
 
  
   logout() {
-    this.service.logout();
+     this.commonService.logout();
   }
 
   profile() {
-    this.router.navigate(['admin-profile']);
+    this.router.navigate(['my-profile']);
   }
 
   fetchAdminDetails() {
