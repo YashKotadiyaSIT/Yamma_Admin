@@ -1,0 +1,24 @@
+<div class="row booking-details-section">
+    <div class="col-xl-12">
+        <app-card cardTitle="Coupon Management" [options]="false" blockClass="table-border-style">
+            <div class="d-flex justify-content-end align-items-center gap-3 flex-wrap">
+                <div class="filter-container">
+                    <input #searchInput type="text" [(ngModel)]="searchText" (input)="onSearchTextChanged()" [disabled]="isLoading" placeholder="Search Filter" class="form-control" style="width: 250px" />
+                </div>
+                <div>
+                    <select class="form-select" [(ngModel)]="ActiveStatus " (change)="onSelectChange() ">
+                        <option value="0">--Filter By Status--</option>
+                        <option value="1">Active</option>
+                        <option value="2">InActive</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" [hidden]="!auth.hasRight(MENU.COUPON_MANAGEMENT,RIGHTS.ADD)" (click)="onAddUpdateCoupon(0)">+ Add New Coupon</button>
+
+            </div>
+            <div class="table-responsive mt-3">
+                <app-grid [rowData]="couponList" [colDefs]="columnDefination" (paginationData)="onPaginationChanged($event)"></app-grid>
+            </div>
+        </app-card>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+::ng-deep .box {
+    width: 70px;
+    height: 34px;
+    ///border: 1px solid #ddd;
+    padding: 5px;
+    display: block;
+    box-shadow: inset 0 0 10px #ddd;
+    margin: 5px
+}
+
+::ng-deep .box-title {
+    height: 45px;
+    width: 3px;
+    position: relative;
+    display: block;
+}
+::ng-deep .custom-coupon-title{
+    padding: 0px!important;;
+
+}
