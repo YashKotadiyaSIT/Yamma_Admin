@@ -3,12 +3,14 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError, switchMap, of, finalize } from "rxjs";
 import { AuthService } from "../service/authService/auth.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { CommonService } from "../service/common/common.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private readonly authService: AuthService,
+    private commonService: CommonService,
     private readonly spinner: NgxSpinnerService
   ) { }
 
@@ -20,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         this.spinner.hide();
         if (error.status === 401 || error.status === 403) {
-          this.authService.logout();
+          this.commonService.logout();
         }
         return throwError(() => error);
       }),
