@@ -41,15 +41,15 @@
                                             <div class="pt-2">
                                                 <strong>Bio : </strong>
                                                 <span [hidden]="showFullBio">
-                                            {{ InstructorDetails?.bio?.slice(0, 25) }}
-                                            <span [hidden]="!(InstructorDetails?.bio?.length > 25 && !showFullBio)">...</span>
+                                                    {{ InstructorDetails?.bio?.slice(0, 100) }}
+                                                    <span [hidden]="!(InstructorDetails?.bio?.length > 100 && !showFullBio)">...</span>
                                                 </span>
                                                 <span [hidden]="!showFullBio">
-                                            {{ InstructorDetails?.bio }}
-                                        </span>
-                                                <button class="btn btn-link p-0 ms-1" (click)="toggleBio()" [hidden]="!(InstructorDetails?.bio?.length > 25)">
-                                            {{ showFullBio ? 'Show Less' : 'Show More' }}
-                                        </button>
+                                                    {{ InstructorDetails?.bio }}
+                                                </span>
+                                                <button class="btn btn-link p-0 ms-1" (click)="toggleBio()" [hidden]="!(InstructorDetails?.bio?.length > 100)">
+                                                    {{ showFullBio ? 'Show Less' : 'Show More' }}
+                                                </button>
                                             </div>
 
 
@@ -59,7 +59,6 @@
                                                 <button [hidden]="!editRights" class="btn-icon" (click)="openEditModal()">
                                                     <img src="assets/images/edit.svg" alt="Edit"  />
                                                 </button>
-
                                                 <img [src]="InstructorDetails?.instructorImageDoc || 'https://via.placeholder.com/150'" class="img-fluid  image-border" (error)="setPlaceholderImage($event)" alt="Profile Image">
                                             </div>
                                         </div>
@@ -148,8 +147,6 @@
                                         'bg-danger': InstructorDetails.vehicleVerificationStatus == 3
                                       }">
                                         {{ verificationStatusPipe(InstructorDetails.vehicleVerificationStatus) }}
-
-                                        <!-- Show if vehicle details were re-submitted -->
                                     </span>
                                     <span *ngIf="InstructorDetails.vehicleReapply && InstructorDetails.vehicleVerificationStatus == 2" class="ms-1">
                                         <b>(Detail Re-Submitted)</b>
@@ -167,7 +164,12 @@
                                                 <img src="assets/images/edit.svg" alt="Edit" />
                                             </button>
                                     </div>
-
+                                    <div class="pt-2">
+                                        <strong>Vehicle Manufacturer : </strong> {{InstructorDetails.vehicleManufacturer}}
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Vehicle Model : </strong> {{InstructorDetails.vehicleModel}}
+                                    </div>
                                     <div class="pt-2">
                                         <strong>Type of Driving : </strong> {{InstructorDetails.vehicleTransmission}}
                                     </div>
@@ -396,20 +398,16 @@
     <div class="modal-body">
         <form>
             <div class="mb-3">
-                <label for="dateOfBirth">Select Reason</label>
+                <label for="rejectionReason">Enter Reason</label><br><br>
                 <div class="input-group">
-                    <select class="form-select" aria-label="Default select example" [(ngModel)]="RejectionReason">
-                        <option value="0" disabled>---Select---</option>
-                        <option value="1">Drive data is not valid</option>
-                        <option value="2">Licence details are not valid or correct</option>
-                        <option value="3">Vehicle details are not valid or correct</option>
-                    </select>
+                    <textarea id="rejectionReason" class="form-control" [(ngModel)]="RejectionReason" name="rejectionReason" rows="3"
+                        placeholder="Enter rejection reason" maxlength="200"></textarea>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" [disabled]="RejectionReason == 0" (click)="modal.close('Save click')">Save</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
     </div>
     <img #profileImg [src]="InstructorDetails?.instructorImageDoc" style="display: none;" />
 </ng-template>
@@ -510,15 +508,18 @@
                     Phone number must be between 10 and 13 digits.
                 </div>
             </div>
-
-
             <div class="mb-3">
-                <label class="form-label">Bio<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" formControlName="bio">
-                <div *ngIf="editForm.get('bio')?.touched && editForm.get('bio')?.invalid" class="text-danger">
-                    Bio is required.
+                <label class="form-label">Bio</label>
+                <textarea #biotextarea class="form-control fixed-size-textarea" rows="4" placeholder="Enter Bio"
+                    formControlName="bio" (input)="limitLinesAndChars($event)" (paste)="limitLinesAndChars($event)">
+              </textarea>
+                <div *ngIf="isInvalid('bio')" class="text-danger">
+                    <small *ngIf="editForm.get('bio')?.hasError('maxlength')">
+                        Bio cannot exceed 500 characters.
+                    </small>
                 </div>
             </div>
+
 
             <div class="mb-3">
                 <label class="form-label">Profile Picture</label>
@@ -554,9 +555,36 @@
                               && vehicleForm.get('vehicleRegistrationNo')?.hasError('pattern')" class="text-danger">
                         Only alphanumeric 8 to 10 characters.
                     </div>
-
                 </div>
+            </div>
 
+
+            <div class="mb-3">
+                <label class="form-label">Vehicle Manufacturer<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="vehicleManufacturer">
+                <div *ngIf="vehicleForm.get('vehicleManufacturer')?.touched">
+                    <div *ngIf="vehicleForm.get('vehicleManufacturer')?.hasError('required')" class="text-danger">
+                        Vehicle Manufacturer is required.
+                    </div>
+                    <div *ngIf="!vehicleForm.get('vehicleManufacturer')?.hasError('required') && vehicleForm.get('vehicleManufacturer')?.hasError('pattern')"
+                        class="text-danger">
+                        Only alphanumeric 2 to 50 characters.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Vehicle Model<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="vehicleModel">
+                <div *ngIf="vehicleForm.get('vehicleModel')?.touched">
+                    <div *ngIf="vehicleForm.get('vehicleModel')?.hasError('required')" class="text-danger">
+                        Vehicle Model is required.
+                    </div>
+                    <div *ngIf="!vehicleForm.get('vehicleModel')?.hasError('required') 
+                                          && vehicleForm.get('vehicleModel')?.hasError('pattern')" class="text-danger">
+                        Only 4 Number digits allowed.
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">

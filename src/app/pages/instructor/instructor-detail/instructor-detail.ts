@@ -42,7 +42,7 @@ export class InstructorDetail {
     .map(([key, value]) => ({ id: Number(key), name: value }));
 
   InstructorDetails: any = {};
-  RejectionReason: number = 0;
+  RejectionReason: string = "";
   DateFormatString = null;
   InstructorId: any;
   isPDI: boolean = false; // true if licenseType is 'PDI'
@@ -55,7 +55,7 @@ export class InstructorDetail {
   minlicenseExpiryDate: string = '';
   maxDob: string = '';
  licenseExpiryMessage: string = '';
-
+@ViewChild('biotextarea') biotextarea!: ElementRef;
   constructor(
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -77,7 +77,7 @@ export class InstructorDetail {
       dob: ['', Validators.required],
       gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(RegexPatterns.email)]],
-      bio: ['', [Validators.required]],
+      bio: ['', [Validators.maxLength(500)]],
       phoneno: [ '', [Validators.required, Validators.pattern(/^[0-9]{10,13}$/)]],
       profileImage : [''],
       instructorId: ['']
@@ -85,6 +85,8 @@ export class InstructorDetail {
 
     this.vehicleForm = this.fb.group({
       vehicleRegistrationNo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]{8,10}$/)]],
+      vehicleManufacturer: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]{2,50}$/)]],
+      vehicleModel: ['', [Validators.required, Validators.pattern(/^[0-9]{4,4}$/)]],
       vehicleTransmission: ['', Validators.required],
       InsuranceValidFrom: ['', Validators.required],
       InsuranceValidTo: ['', [Validators.required]],
@@ -235,6 +237,7 @@ export class InstructorDetail {
 
 
   openRejectReasonPopup(content: TemplateRef<any>, type: string) {
+    this.RejectionReason = '';
     this.modalService
       .open(content, {
         ariaLabelledBy: 'modal-basic-title',
@@ -265,7 +268,7 @@ export class InstructorDetail {
           instructorId: this.InstructorDetails.userId,
           type: type,
           status: 1,
-          instructorRejectReason: '0'
+          instructorRejectReason: ''
         };
 
         const apiUrl = this.apiUrl.apiUrl.Instuctor.InstuctorApproveReject;
@@ -312,7 +315,7 @@ export class InstructorDetail {
           this.spinner.hide();
           if (response.success) {
             this.toster.success(response.message);
-            this.RejectionReason = 0
+            this.RejectionReason = "";
             this.getInstructorDetail(this.InstructorDetails.instructorId);
           } else {
             this.toster.success(response.message);
@@ -520,6 +523,8 @@ export class InstructorDetail {
   openEditVehicleModal() {
     this.vehicleForm.patchValue({
       vehicleRegistrationNo: this.InstructorDetails.vehicleRegistrationNo,
+      vehicleManufacturer: this.InstructorDetails.vehicleManufacturer,
+      vehicleModel: this.InstructorDetails.vehicleModel,
       vehicleTransmission: this.InstructorDetails.vehicleTransmissionId,
       InsuranceValidFrom: this.formatDate(this.InstructorDetails.vehicleValidFrom),
       instructorId: this.InstructorDetails.userId,
@@ -648,6 +653,7 @@ export class InstructorDetail {
         next: (res: any) => {
           if (res.success) {
             modal.close();
+            this.toster.success(res.message);
             this.getInstructorDetail(this.InstructorDetails.instructorId); // refresh data
             this.VehicleInsurance = null;
           }
@@ -800,5 +806,35 @@ export class InstructorDetail {
           return 'Unknown';
       }
     }
+
+  limitLinesByHeight() {
+    debugger
+    const textarea = this.biotextarea.nativeElement;
+    // Check if the scroll height is greater than the client height
+    if (textarea.scrollHeight > textarea.clientHeight) {
+      // If it is, trim the last character to prevent the new line from being added
+      const value = this.editForm.get('bio')?.value;
+      if (value) {
+        this.editForm.get('bio')?.setValue(value.slice(0, -1));
+      }
+    }
+  }
+
+  isInvalid(controlName: string): boolean {
+    const control = this.editForm.get(controlName);
+    return control?.invalid && (control?.touched || control?.dirty);
+  }
+  limitLinesAndChars(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    let value = textarea.value;
+
+    // Only enforce line limit
+    const lines = value.split('\n');
+    if (lines.length > 4) {
+      value = lines.slice(0, 4).join('\n');
+      this.editForm.get('bio')?.setValue(value, { emitEvent: false });
+    }
+  }
+
 
 }

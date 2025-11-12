@@ -20,9 +20,9 @@ export class CouponAddedit {
   colorList : any[] = [];
   @Input() couponId: number | null = null;
   @Output() refreshGrid: EventEmitter<void> = new EventEmitter<void>();
-    readonly MAX_LINES = 4;
-      @ViewChild('termsTextarea') termsTextarea!: ElementRef;
-
+  readonly MAX_LINES = 4;
+  @ViewChild('termsTextarea') termsTextarea!: ElementRef;
+  selectedColor: string = '';
 
 
   usedCount: number = 0; // coupon used count till now
@@ -55,7 +55,7 @@ export class CouponAddedit {
         startDate: ['', Validators.required],
         expiryDate: ['', Validators.required],
         minAmount: [null, [Validators.required, Validators.min(0),Validators.pattern(/^\d{1,4}(\.\d{1,2})?$/)]],
-        maxUsageLimit: [null, [Validators.required, Validators.min(1),Validators.max(7)]]
+        maxUsageLimit: [null, [Validators.required, Validators.min(1)]]
       },
       {
         validators: (group) => {
@@ -106,7 +106,7 @@ export class CouponAddedit {
           this.couponForm.get('maxUsageLimit')?.setValidators([
             Validators.required,
             Validators.min(this.usedCount || 1),
-            Validators.max(7)
+            Validators.maxLength(7)
           ]);
           this.couponForm.get('maxUsageLimit')?.updateValueAndValidity();
 
@@ -126,6 +126,7 @@ export class CouponAddedit {
             maxUsageLimit: coupon.maxUsageLimit
           });
 
+          this.selectedColor = coupon.couponColor;
           this.couponForm.get('amount')?.disable();
           this.couponForm.get('percentage')?.disable();
 
@@ -320,6 +321,19 @@ export class CouponAddedit {
         this.couponForm.get('termsAndConditions')?.setValue(value.slice(0, -1));
       }
     }
+  }
+
+  limitDigits(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.value.length > 7) {
+      input.value = input.value.slice(0, 7);
+      this.couponForm.get('maxUsageLimit')?.setValue(input.value);
+    }
+  }
+
+
+  onColorChange(event: Event) {
+    this.selectedColor = (event.target as HTMLSelectElement).value;
   }
 
   

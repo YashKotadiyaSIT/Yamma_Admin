@@ -51,3 +51,7 @@
 .accordion-body {
     position: relative;
 }
+.fixed-size-textarea {
+  resize: none; 
+  overflow-y: auto;
+}

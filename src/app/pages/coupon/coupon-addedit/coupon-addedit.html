@@ -7,18 +7,21 @@
     <form [formGroup]="couponForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label class="form-label">Coupon Color <span class="text-danger">*</span></label>
-            <select class="form-select" formControlName="couponColor">
-        <option value="">Select Color</option>
-        <option *ngFor="let color of colorList" [value]="color.colorCode">
-          {{ color.colorName }} 
-        </option>
-      </select>
-
+            <select class="form-select" formControlName="couponColor" (change)="onColorChange($event)">
+                <option value="">Select Color</option>
+                <option *ngFor="let color of colorList" [value]="color.colorCode">
+                    {{ color.colorName }}
+                </option>
+            </select>
+        
             <div *ngIf="isInvalid('couponColor')" class="text-danger">
                 Coupon color is required.
             </div>
         </div>
 
+        <div *ngIf="selectedColor" [style.background-color]="'#' + selectedColor"
+            style="width: 50px; height: 10px; border: 1px solid #ccc; margin-left: 10px;">
+        </div>
       
         <div class="mb-3">
             <label class="form-label">Title<span class="text-danger">*</span></label>
@@ -107,20 +110,20 @@
             <div class="col">
                 <label class="form-label">Minimum Amount<span class="text-danger">*</span></label>
                 <div class="tooltip"> <i class="bi bi-info-circle ms-1 text-muted"></i>
-                    <span class="tooltiptext">Description Pending</span>
+                    <span class="tooltiptext">Enter the minimum purchase amount required to apply this coupon. Must be a positive value and can include up to four digits before the decimal and two digits after (e.g., 9999.99).</span>
                 </div>
-
+            
                 <input type="number" class="form-control" formControlName="minAmount" min="0" />
                 <div *ngIf="isInvalid('minAmount')" class="text-danger">
                     <small *ngIf="couponForm.get('minAmount')?.hasError('required')">
-              Minimum Amount is required.
-            </small>
+                        Minimum Amount is required.
+                    </small>
                     <small *ngIf="couponForm.get('minAmount')?.hasError('min')">
-              Minimum Amount cannot be negative.
-            </small>
+                        Minimum Amount cannot be negative.
+                    </small>
                     <small *ngIf="couponForm.get('minAmount')?.hasError('pattern')">
-              Only four digit and after point 2 digits is allowed.
-            </small>
+                        Only four digit and after point 2 digits is allowed.
+                    </small>
                     <!-- Minimum amount is required and must be 0 or more. -->
                 </div>
             </div>
@@ -129,20 +132,16 @@
             <div class="col">
                 <label class="form-label">Max Usage Limit<span class="text-danger">*</span></label>
                 <div class="tooltip"> <i class="bi bi-info-circle ms-1 text-muted"></i>
-                    <span class="tooltiptext">Description Pending</span>
+                    <span class="tooltiptext">Specify the maximum number of times this coupon can be used. Only whole numbers are allowed, and the value cannot exceed 7 digits (e.g., 9999999).</span>
                 </div>
-
-                <input type="number" class="form-control" formControlName="maxUsageLimit" min="1" />
+                <input type="number" class="form-control" formControlName="maxUsageLimit" min="1" (input)="limitDigits($event)" />
                 <div *ngIf="isInvalid('maxUsageLimit')" class="text-danger">
                     <small *ngIf="couponForm.get('maxUsageLimit')?.hasError('required')">
-            Max Usage Limit is required
-          </small>
+                        Max Usage Limit is required
+                    </small>
                     <small *ngIf="couponForm.get('maxUsageLimit')?.hasError('min')">
-            Max Usage Limit cannot be less than 1
-          </small>
-                    <small *ngIf="couponForm.get('maxUsageLimit')?.hasError('max')">
-            Max Usage Limit cannot be greater than 7
-          </small>
+                        Max Usage Limit cannot be less than 1
+                    </small>
                 </div>
             </div>
           
