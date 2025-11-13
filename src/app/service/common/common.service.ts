@@ -137,7 +137,9 @@ export class CommonService {
         this.toster.error(TokenConstants.Session_Expired);
       }
       this.spinner.hide();
-      this.logout();
+      //this.logout();
+      this.storageService.clearStorage();
+      this.router.navigate(['/login']);
     }
     else if (error.status == HttpStatusCode.Forbidden) {
       if (this.IsError == false) {
@@ -229,7 +231,7 @@ export class CommonService {
     if (localStorage.getItem("authToken") == null || localStorage.getItem("authToken") == undefined || localStorage.getItem("authToken") == "") {
       return;
     }
-    
+
     let apiUrl = this.apiUrl.apiUrl.Login.logout;
     this.doPost(apiUrl, {}).pipe().subscribe({
         next: (response) => {
