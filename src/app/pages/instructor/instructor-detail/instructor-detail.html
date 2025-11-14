@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div ngbAccordion class="pt-3">
-                        <div ngbAccordionItem>
+                        <div ngbAccordionItem >
                             <h2 ngbAccordionHeader>
                                 <button ngbAccordionButton>License Details 
                                      <span class="ms-2 badge" [ngClass]="{
@@ -114,13 +114,13 @@
                                     </div>
                                     <div class="d-flex align-items-center pt-2">
                                         <strong>Driving License Front Side Document:</strong>
-                                        <a class="ms-1" [href]="InstructorDetails?.licenseFrontSideImage" target="_blank" rel="noopener">
+                                        <a class="ms-1" [href]="InstructorDetails?.licenseFrontSideImage" target="_blank" rel="noopener" [hidden]="!InstructorDetails?.licenseFrontSideImage || InstructorDetails?.licenseFrontSideImage.trim().length === 0">
                                             View Document
                                         </a>
                                     </div>
                                     <div class="d-flex align-items-center pt-2">
                                         <strong>Driving License Back Side Document:</strong>
-                                        <a class="ms-1" [href]="InstructorDetails?.licenseBackSideImage" target="_blank" rel="noopener">
+                                        <a class="ms-1" [href]="InstructorDetails?.licenseBackSideImage" target="_blank" rel="noopener" [hidden]="!InstructorDetails?.licenseBackSideImage || InstructorDetails?.licenseBackSideImage.trim().length === 0">
                                             View Document
                                         </a>
                                     </div>
@@ -128,15 +128,15 @@
                                         <strong>Licence Status : </strong> {{verificationStatusPipe(InstructorDetails.licenseVerificationStatus)}}
                                     </div>
                                     <div class="pt-2" [hidden]="InstructorDetails.licenseVerificationStatus == 1 || !approveRejectRights">
-                                        <button class="btn btn-primary me-2" type="button" [hidden]="InstructorDetails.licenseVerificationStatus == 1 " (click)="approveInstructor('License')">Approve</button>
-                                        <button class="btn btn-danger" type="button" [hidden]="InstructorDetails.licenseVerificationStatus == 3 " (click)="openRejectReasonPopup(content,'License')">Reject</button>
+                                        <button class="btn btn-primary me-2" type="button" [hidden]="InstructorDetails.licenseVerificationStatus == 1" [disabled]="!hasLicenseNumber(InstructorDetails?.licenseNumber)" (click)="approveInstructor('License')">Approve</button>
+                                        <button class="btn btn-danger" type="button" [hidden]="InstructorDetails.licenseVerificationStatus == 3 " [disabled]="!hasLicenseNumber(InstructorDetails?.licenseNumber)" (click)="openRejectReasonPopup(content,'License')">Reject</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div ngbAccordion class="pt-3">
-                        <div ngbAccordionItem>
+                        <div ngbAccordionItem >
                           
                             <h2 ngbAccordionHeader>
                                 <button ngbAccordionButton>
@@ -181,9 +181,9 @@
                                     </div>
                                     <div class="row pt-2">
                                         <div class="col-6">
-                                            <strong>Insurance Documnet : </strong>
+                                            <strong>Insurance Document : </strong>
                                             <ng-container>
-                                                <a [href]="InstructorDetails.vehicleInsuranceDoc" target="_blank" rel="noopener">
+                                                <a [href]="InstructorDetails.vehicleInsuranceDoc" target="_blank" rel="noopener" [hidden]="!InstructorDetails?.vehicleInsuranceDoc || InstructorDetails?.vehicleInsuranceDoc.trim().length === 0">
                                                     View Document
                                                 </a>
                                             </ng-container>
@@ -193,8 +193,8 @@
                                         <strong>Vehicle Status : </strong> {{ verificationStatusPipe(InstructorDetails.vehicleVerificationStatus) }}
                                     </div>
                                     <div class="pt-2" [hidden]="InstructorDetails.vehicleVerificationStatus == 1 || !approveRejectRights">
-                                        <button class="btn btn-primary me-2" type="button" [hidden]="InstructorDetails.vehicleVerificationStatus == 1 " (click)="approveInstructor('Vehicle')">Approve</button>
-                                        <button class="btn btn-danger" type="button" [hidden]="InstructorDetails.vehicleVerificationStatus == 3 " (click)="openRejectReasonPopup(content,'Vehicle')">Reject</button>
+                                        <button class="btn btn-primary me-2" type="button" [hidden]="InstructorDetails.vehicleVerificationStatus == 1 " [disabled]="!hasLicenseNumber(InstructorDetails?.vehicleRegistrationNo)" (click)="approveInstructor('Vehicle')">Approve</button>
+                                        <button class="btn btn-danger" type="button" [hidden]="InstructorDetails.vehicleVerificationStatus == 3 " [disabled]="!hasLicenseNumber(InstructorDetails?.vehicleRegistrationNo)" (click)="openRejectReasonPopup(content,'Vehicle')">Reject</button>
                                     </div>
                                 </div>
                             </div>

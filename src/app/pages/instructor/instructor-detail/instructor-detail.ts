@@ -836,5 +836,10 @@ export class InstructorDetail {
     }
   }
 
+  
+hasLicenseNumber(licenseNumber: string | null | undefined): boolean {
+  return !!(licenseNumber && licenseNumber.toString().trim().length > 0);
+}
+
 
 }
