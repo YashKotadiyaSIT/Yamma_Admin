@@ -29,12 +29,12 @@
                 </small>
               </div>
               <div class="form-group password-wrapper">
-                <input [type]="showPassword ? 'text' : 'password'" class="form-control password-input" formControlName="password"
+                <input [type]="showPassword ? 'password' : 'text'" class="form-control password-input" formControlName="password"
                   placeholder="Password" />
                 <button type="button" class="toggle-password" (click)="showPassword = !showPassword" tabindex="-1">
-                  <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  <i [ngClass]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                 </button>
-              </div>
+              </div> 
               <div class="text-danger mb-3 text-start">
                 <small
                   *ngIf="(loginForm.get('password')?.touched || loginform.submitted) && loginForm.get('password')?.errors?.['required']">
@@ -80,10 +80,10 @@
           <div *ngIf="isOtpVerified">
             <form [formGroup]="resetPasswordForm" (ngSubmit)="onResetPassword()">
                   <div class="form-group password-wrapper">
-                    <input [type]="isshowforgotpassword ? 'text' : 'password'" class="form-control password-input"
+                    <input [type]="isshowforgotpassword ? 'password' : 'text'" class="form-control password-input"
                       formControlName="newPassword" placeholder="New Password" />
                     <button type="button" class="toggle-password" (click)="isshowforgotpassword = !isshowforgotpassword" tabindex="-1">
-                      <i class="fa" [ngClass]="isshowforgotpassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                       <i [ngClass]="isshowforgotpassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                     </button>
                   </div>
               <div class="text-danger mb-3 text-start">
@@ -105,10 +105,10 @@
                 </small>
               </div>
               <div class="form-group password-wrapper">
-                <input [type]="isshowconfirmpassword ? 'text' : 'password'" class="form-control password-input"
+                <input [type]="isshowconfirmpassword ? 'password' : 'text'" class="form-control password-input"
                   formControlName="confirmPassword" placeholder="Confirm Password" />
                 <button type="button" class="toggle-password" (click)="isshowconfirmpassword = !isshowconfirmpassword" tabindex="-1">
-                  <i class="fa" [ngClass]="isshowconfirmpassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  <i [ngClass]="isshowconfirmpassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                 </button>
               </div>
               <div class="text-danger mb-3 text-start">

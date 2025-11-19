@@ -8,12 +8,13 @@
               <div class="form-group password-wrapper">
                 <label for="oldPassword"><b>Enter Old Password</b></label>
                 <div class="password-input-container">
-                  <input [type]="isshowoldpwd ? 'text' : 'password'" class="form-control password-input" formControlName="oldPassword"
+                  <input [type]="isshowoldpwd ? 'password' : 'text'" class="form-control password-input" formControlName="oldPassword"
                     id="oldPassword" placeholder="Enter Old Password" />
                   <button type="button" class="toggle-password" (click)="isshowoldpwd = !isshowoldpwd" tabindex="-1">
-                    <i class="fa" [ngClass]="isshowoldpwd ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    <i [ngClass]="isshowoldpwd ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                   </button>
                 </div>
+
                 <div *ngIf="passwordForm.get('oldPassword')?.touched && passwordForm.get('oldPassword')?.invalid" class="text-danger">
                   <small *ngIf="passwordForm.get('oldPassword')?.hasError('required')">Old password is required.</small>
                   <small *ngIf="passwordForm.get('oldPassword')?.hasError('minlength')">Minimum 8 characters required.</small>
@@ -23,12 +24,13 @@
               <div class="form-group password-wrapper">
                 <label for="newPassword"><b>Enter New Password</b></label>
                 <div class="password-input-container">
-                  <input [type]="isshownewpwd ? 'text' : 'password'" class="form-control password-input" formControlName="newPassword"
+                  <input [type]="isshownewpwd ? 'password' : 'text'" class="form-control password-input" formControlName="newPassword"
                     id="newPassword" placeholder="Enter New Password" />
                   <button type="button" class="toggle-password" (click)="isshownewpwd = !isshownewpwd" tabindex="-1">
-                    <i class="fa" [ngClass]="isshownewpwd ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    <i [ngClass]="isshownewpwd ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                   </button>
                 </div>
+
                 <div *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid" class="text-danger">
                   <small *ngIf="passwordForm.get('newPassword')?.hasError('required')">New password is required.</small>
                   <small *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">Minimum 8 characters required.</small>
@@ -39,10 +41,10 @@
               <div class="form-group password-wrapper mb-4">
                 <label for="confirmPassword"><b>Confirm New Password</b></label>
                 <div class="password-input-container">
-                  <input [type]="isshowconfirmpwd ? 'text' : 'password'" class="form-control password-input"
+                  <input [type]="isshowconfirmpwd ? 'password' : 'text'" class="form-control password-input"
                     formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm New Password" />
                   <button type="button" class="toggle-password" (click)="isshowconfirmpwd = !isshowconfirmpwd" tabindex="-1">
-                    <i class="fa" [ngClass]="isshowconfirmpwd ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    <i [ngClass]="isshowconfirmpwd ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                   </button>
                 </div>
                 <div *ngIf="passwordForm.get('confirmPassword').touched && passwordForm.get('confirmPassword').invalid"

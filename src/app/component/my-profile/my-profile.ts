@@ -19,9 +19,9 @@ export class MyProfile {
   profileImage: string | null = null;
   fileToUpload: File | null = null;
   userId: string | null = null; 
-  isshowoldpwd: boolean = false;
-  isshownewpwd: boolean = false;
-  isshowconfirmpwd: boolean = false;
+  isshowoldpwd: boolean = true;
+  isshownewpwd: boolean = true;
+  isshowconfirmpwd: boolean = true;
   profileForm!: FormGroup;
   defualtImagePath:any='https://via.placeholder.com/200';
   constructor(

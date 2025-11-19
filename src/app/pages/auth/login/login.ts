@@ -22,9 +22,9 @@ export class Login {
   phonenumber: string = '';
   resetPasswordForm: FormGroup;
   isOtpVerified: boolean = false;
-  showPassword: boolean = false;
-  isshowforgotpassword: boolean = false;
-  isshowconfirmpassword: boolean = false;
+  showPassword: boolean = true;
+  isshowforgotpassword: boolean = true;
+  isshowconfirmpassword: boolean = true;
   emailId: string = '';
   constructor(
     private fb: FormBuilder,
