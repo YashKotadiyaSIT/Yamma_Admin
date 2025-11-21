@@ -153,7 +153,7 @@ export class Dashboard {
           this.updateChartDataChart2();
           this.applyGradientToChart2();
         } else {
-          this.toster.error(response.message);
+          //this.toster.error(response.message);
         }
       },
       error: (err) => {

@@ -253,7 +253,8 @@
                                                         <td>{{ i + 1 }}</td>
                                                         <td>{{ bundle.bundleName }}</td>
                                                         <td>{{ bundle.lessionHours }}</td>
-                                                        <td>{{ bundle.price | currency }}</td>
+                                                        <!-- <td>{{ bundle.price }}</td> -->
+                                                         <td>{{ bundle.price | currency:'GBP':'symbol' }}</td>
                                                         <td>{{ bundle.bundleExpiryDate | date:'dd/MM/yyyy' }}</td>
                                                         <td>{{ bundle.termsAndConditions }}</td>
                                                     </tr>
